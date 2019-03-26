@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+<gradient
+
+    android:angle="90"
+    android:centerX="0.5"
+    android:startColor="@color/custom1PrimaryDark2"
+    android:centerColor="@color/custom1PrimaryDark2"
+    android:endColor="@color/custom2Secondary"
+    />
+
+</shape>
+
+    <!--android:centerColor="@color/profile_center1"
+        android:endColor="@color/profile_end1"
+        android:startColor="@color/profile_start1"-->

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+<gradient
+
+    android:angle="270"
+    android:centerX="0.7"
+android:startColor="@color/splash_background1"
+    android:endColor="@color/splash_background3"
+android:centerColor="@color/splash_background2"
+    />
+
+</shape>
+
+    <!--android:centerColor="@color/profile_center1"
+        android:endColor="@color/profile_end1"
+        android:startColor="@color/profile_start1"-->

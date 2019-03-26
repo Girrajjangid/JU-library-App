@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="custom1Primary">#344955</color>
+    <color name="custom1PrimaryDark">#232F34</color>
+    <color name="custom1PrimaryDark2">#50899E</color>
+    <color name="custom1TextInputBackgroun">#DAEFF8</color>
+    <color name="custom1Accent">#F9AA33</color>
+
+    <color name="custom2Primary">#37966F</color>
+    <color name="custom2PrimaryLight">#B9E4C9</color>
+    <color name="custom2PrimaryDark">#356859</color>
+    <color name="custom2Secondary">#FD5523</color>
+    <color name="custom2SecondaryLight">#FFFBE6</color>
+
+    <color name="scanner_line">#00ceff</color>
+    <color name="splash_background1">#0C74F3</color>
+    <color name="blue">#0C74F3</color>
+    <color name="splash_background2">#9A07F5</color>
+    <color name="splash_background3">#BE1BFA</color>
+    <color name="white">#FFFFFF</color>
+
+</resources>
