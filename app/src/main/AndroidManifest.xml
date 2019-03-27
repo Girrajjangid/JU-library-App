@@ -21,11 +21,15 @@
         android:supportsRtl="true"
         android:theme="@style/Custom1"
         tools:ignore="GoogleAppIndexingWarning">
-
-        <activity android:name=".BarcodeActivity"/>
+        <activity android:name=".SignUpActivity"></activity>
+        <activity
+            android:name=".BarcodeActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".FirebaseActivity" />
         <activity android:name=".RealTimeDatabaseActivity" />
-        <activity android:name=".SplashActivity">
+        <activity
+            android:name=".SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

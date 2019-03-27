@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/custom1PrimaryDark2"
+    android:orientation="horizontal"
+    android:clickable="false"
+    android:id="@+id/parent_relativelayout"
+    tools:context=".SignUpActivity">
+
+    <LinearLayout
+        android:focusableInTouchMode="true"
+        android:id="@+id/linearlayoutsplash"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cv_one_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                app:cardBackgroundColor="@color/custom1Primary"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp"
+                app:cardPreventCornerOverlap="false"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:padding="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:fontFamily="@font/lekton_bold"
+                        android:id="@+id/inputlayout1"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:background="@drawable/textinput_background"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lekton_bold"
+                            android:focusedByDefault="false"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:hint="Name"
+                            android:textSize="20sp"
+                            android:padding="10dp"
+                            android:inputType="text"
+                            android:id="@+id/manual_name"
+                            />
+                    </android.support.design.widget.TextInputLayout>
+
+                   <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:id="@+id/inputlayout5"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:fontFamily="@font/lekton_bold"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:background="@drawable/textinput_background"
+                            android:layout_width="match_parent"
+                            android:layout_height="50sp"
+                            android:textSize="20sp"
+                            android:hint="Contact"
+                            android:paddingTop="10sp"
+                            android:maxLength="10"
+                            android:padding="10dp"
+                            android:fontFamily="@font/lekton_bold"
+                            android:inputType="textEmailAddress"
+                            android:id="@+id/manual_contact"
+                            />
+
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:fontFamily="@font/lekton_bold"
+                        android:id="@+id/inputlayout12"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:background="@drawable/textinput_background"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lekton_bold"
+                            android:focusedByDefault="false"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:hint="Password"
+                            android:textSize="20sp"
+                            android:padding="10dp"
+                            android:inputType="textPassword"
+
+                            android:id="@+id/manual_password"
+
+                            />
+                    </android.support.design.widget.TextInputLayout>
+                    <Button
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/textinput_background"
+                        android:layout_width="match_parent"
+                        android:layout_height="50sp"
+                        android:textSize="20sp"
+                        android:hint="@string/roll_no_scan_id"
+                        android:paddingTop="10sp"
+                        android:padding="10dp"
+                        android:gravity="left"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="20dp"
+                        android:fontFamily="@font/lekton_bold"
+                        android:onClick="scanBarcode"
+                        android:id="@+id/scanidbarcode"/>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+        </RelativeLayout>
+
+        <Button
+            android:layout_width="150sp"
+            android:layout_height="50sp"
+            android:layout_gravity="center"
+            android:layout_marginTop="-45dp"
+            android:elevation="2dp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:onClick="submitResult"
+            android:id="@+id/submitresult"
+            android:fontFamily="@font/caviar_dreams_bold"
+            android:text="@string/submit"
+            android:background="@drawable/submit_background"
+            tools:targetApi="lollipop" />
+
+
+    </LinearLayout>
+</RelativeLayout>
+
+<!--
+<android.support.design.widget.TextInputLayout
+android:layout_width="match_parent"
+android:id="@+id/inputlayout3"
+android:fontFamily="@font/lekton_bold"
+android:layout_marginLeft="10dp"
+android:layout_marginRight="10dp"
+android:layout_height="wrap_content">
+
+<EditText
+    android:background="@drawable/textinput_background"
+    android:fontFamily="@font/lekton_bold"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textSize="20sp"
+    android:hint="Branch"
+    android:paddingTop="10sp"
+    android:padding="10dp"
+    android:inputType="text"
+    android:id="@+id/manual_branch"
+    />
+</android.support.design.widget.TextInputLayout>
+<android.support.design.widget.TextInputLayout
+android:layout_width="match_parent"
+android:id="@+id/inputlayout4"
+android:layout_marginLeft="10dp"
+android:fontFamily="@font/lekton_bold"
+android:layout_marginRight="10dp"
+android:layout_height="wrap_content">
+
+<EditText
+
+    android:fontFamily="@font/lekton_bold"
+    android:background="@drawable/textinput_background"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textSize="20sp"
+    android:hint="Course"
+    android:paddingTop="10sp"
+    android:padding="10dp"
+    android:inputType="text"
+    android:id="@+id/manual_course"
+    />
+</android.support.design.widget.TextInputLayout>
+                    -->

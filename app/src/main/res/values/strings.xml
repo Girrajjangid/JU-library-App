@@ -18,6 +18,10 @@
         completions."
     </string>
     <string name="roll_no_scan_id">Roll No.[Scan ID]</string>
+    <string name="registration_no">Registration No.</string>
+    <string name="registration_number">Registration Number</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_in">Sign In</string>
 
 
 </resources>
