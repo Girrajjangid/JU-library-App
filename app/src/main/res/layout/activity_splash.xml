@@ -129,18 +129,17 @@
 
         <LinearLayout
 
-            android:layout_marginBottom="20sp"
             android:layout_width="match_parent"
             android:orientation="horizontal"
             android:layout_weight="1"
             android:weightSum="1"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             >
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New User?"
+                android:layout_height="match_parent"
+                android:text="@string/new_user"
                 android:layout_margin="10dp"
                 android:fontFamily="@font/caviar_dreams_bold"
                 android:gravity="center"
@@ -148,23 +147,26 @@
                 android:textAlignment="textEnd"
                 android:textColor="@color/custom1PrimaryDark"
                 android:layout_weight=".5"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 tools:ignore="NestedWeights,RtlCompat" />
 
-            <TextView
+            <Button
                 android:layout_weight=".5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sign_up"
-                android:textSize="21dp"
+                android:textSize="21sp"
+                android:background="@android:color/transparent"
                 android:clickable="true"
                 android:onClick="signUp"
                 android:focusableInTouchMode="true"
-                android:layout_gravity="center"
+                android:gravity="left"
                 android:layout_margin="10dp"
+                android:textAllCaps="false"
                 android:fontFamily="@font/caviar_dreams_bold"
                 android:textColor="@color/white"
-                android:focusable="true" />
+                android:focusable="true"
+                tools:ignore="RtlHardcoded" />
 
         </LinearLayout>
 

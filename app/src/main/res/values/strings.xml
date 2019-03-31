@@ -17,11 +17,14 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="roll_no_scan_id">Roll No.[Scan ID]</string>
+    <string name="roll_no_scan_id">Scan ID Card</string>
     <string name="registration_no">Registration No.</string>
     <string name="registration_number">Registration Number</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_in">Sign In</string>
-
+    <string name="password">Password</string>
+    <string name="we_sent_you_a_6_digit_code">We sent you a 6-digit code.</string>
+    <string name="_continue">Continue</string>
+    <string name="new_user">New User?</string>
 
 </resources>

@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.library.libraryproject">
 
-    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
 
-    <uses-feature android:name="android.hardware.Camera" />
+    <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-feature android:name="android.hardware.camera2.flash" />
 
@@ -21,21 +21,35 @@
         android:supportsRtl="true"
         android:theme="@style/Custom1"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".SignUpActivity"></activity>
+
+        <activity android:name=".LivePreviewActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".SplashActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CheckInOutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".OTPActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SignUpActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".BarcodeActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".FirebaseActivity" />
-        <activity android:name=".RealTimeDatabaseActivity" />
         <activity
-            android:name=".SplashActivity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".FirebaseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".RealTimeDatabaseActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"

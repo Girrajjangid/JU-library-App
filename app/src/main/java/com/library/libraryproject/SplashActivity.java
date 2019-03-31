@@ -1,8 +1,10 @@
 package com.library.libraryproject;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Handler;
@@ -42,6 +44,8 @@ public class SplashActivity extends AppCompatActivity {
     EditText rollnoET, passwordET;
     String rollno, password;
     ProgressDialog dialog;
+    SharedPreferences prefs;
+    public static final String preference = "UserData";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,4 +127,17 @@ public class SplashActivity extends AppCompatActivity {
             Toast.makeText(this, "thik", Toast.LENGTH_SHORT).show();
         }
     }
+
+    protected void onResume() {
+        prefs = getSharedPreferences(preference, Context.MODE_PRIVATE);
+        if (prefs.contains("rollno")) {
+            if (prefs.contains("password")) {
+                Intent i = new Intent(this, CheckInOutActivity.class);
+                startActivity(i);
+                finish();
+            }
+        }
+        super.onResume();
+    }
+
 }

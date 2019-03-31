@@ -84,7 +84,7 @@
                             android:maxLength="10"
                             android:padding="10dp"
                             android:fontFamily="@font/lekton_bold"
-                            android:inputType="textEmailAddress"
+                            android:inputType="number"
                             android:id="@+id/manual_contact"
                             />
 
@@ -104,10 +104,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/lekton_bold"
-                            android:focusedByDefault="false"
                             android:focusable="true"
                             android:focusableInTouchMode="true"
-                            android:hint="Password"
+                            android:hint="@string/password"
                             android:textSize="20sp"
                             android:padding="10dp"
                             android:inputType="textPassword"
@@ -126,12 +125,12 @@
                         android:hint="@string/roll_no_scan_id"
                         android:paddingTop="10sp"
                         android:padding="10dp"
-                        android:gravity="left"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="20dp"
                         android:fontFamily="@font/lekton_bold"
                         android:onClick="scanBarcode"
-                        android:id="@+id/scanidbarcode"/>
+                        android:id="@+id/scanidbarcode"
+                        android:gravity="start" />
 
                 </LinearLayout>
 
@@ -157,48 +156,3 @@
     </LinearLayout>
 </RelativeLayout>
 
-<!--
-<android.support.design.widget.TextInputLayout
-android:layout_width="match_parent"
-android:id="@+id/inputlayout3"
-android:fontFamily="@font/lekton_bold"
-android:layout_marginLeft="10dp"
-android:layout_marginRight="10dp"
-android:layout_height="wrap_content">
-
-<EditText
-    android:background="@drawable/textinput_background"
-    android:fontFamily="@font/lekton_bold"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textSize="20sp"
-    android:hint="Branch"
-    android:paddingTop="10sp"
-    android:padding="10dp"
-    android:inputType="text"
-    android:id="@+id/manual_branch"
-    />
-</android.support.design.widget.TextInputLayout>
-<android.support.design.widget.TextInputLayout
-android:layout_width="match_parent"
-android:id="@+id/inputlayout4"
-android:layout_marginLeft="10dp"
-android:fontFamily="@font/lekton_bold"
-android:layout_marginRight="10dp"
-android:layout_height="wrap_content">
-
-<EditText
-
-    android:fontFamily="@font/lekton_bold"
-    android:background="@drawable/textinput_background"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textSize="20sp"
-    android:hint="Course"
-    android:paddingTop="10sp"
-    android:padding="10dp"
-    android:inputType="text"
-    android:id="@+id/manual_course"
-    />
-</android.support.design.widget.TextInputLayout>
-                    -->
