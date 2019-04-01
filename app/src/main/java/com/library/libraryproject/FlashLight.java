@@ -6,7 +6,6 @@ import android.content.Context;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;

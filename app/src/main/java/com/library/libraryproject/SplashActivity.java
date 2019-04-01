@@ -14,6 +14,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -46,6 +47,8 @@ public class SplashActivity extends AppCompatActivity {
     ProgressDialog dialog;
     SharedPreferences prefs;
     public static final String preference = "UserData";
+    private static final String TAG = "SplashActivity";
+    private String nameF , branchF , contactF , courceF ,emailF;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +76,7 @@ public class SplashActivity extends AppCompatActivity {
         password.setTypeface(Typeface.DEFAULT);
         password.setTransformationMethod(new PasswordTransformationMethod());*/
 
+
         new Handler().postDelayed(() -> {
             imageViewlogo.animate().translationY(50).setDuration(800);
             imageViewlogo.startAnimation(anim1);
@@ -88,26 +92,18 @@ public class SplashActivity extends AppCompatActivity {
 
     public void alertDialog(String message) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(message).setCancelable(false).
-                setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        builder.setMessage(message).setCancelable(true).
+                setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        finish();
+                        dialogInterface.cancel();
                     }
-                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.cancel();
-                //*****you can also leave this function******
-            }
-        }).create().show();
-
+                }).create().show();
     }
 
-    private void progressDialog() {
+    private void progressDialogStart() {
         dialog = ProgressDialog.show(SplashActivity.this, "Loading...", "Please wait...", true);
     }
-
 
     public void signUp(View view) {
         startActivity(new Intent(SplashActivity.this, SignUpActivity.class));
@@ -124,10 +120,75 @@ public class SplashActivity extends AppCompatActivity {
             passwordET.setError("Enter at least 5 characters");
             passwordET.requestFocus();
         } else {
-            Toast.makeText(this, "thik", Toast.LENGTH_SHORT).show();
+            rollno = rollno.toUpperCase();
+            progressDialogStart();
+            checkFromFirebase(rollno , password);
+
         }
     }
 
+    private void checkFromFirebase(String rollno, String password) {
+        DatabaseReference ref  = FirebaseDatabase.getInstance().getReference();
+        ref.child("students").orderByKey().equalTo(rollno).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    dialog.dismiss();
+                    try {
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                            String rollnoF = ds.getKey();
+                            if (rollnoF != null) {
+                                HashMap as = (HashMap) ds.getValue();
+                                if (as != null) {
+                                    String passwordF = (String) as.get("password");
+                                    if (passwordF.isEmpty()) {
+                                        alertDialog("You are not registered.");
+                                    } else if (passwordF.equals(password)) {
+                                        sucessfullyVerified((String) as.get("name"),
+                                                (String) as.get("email"),
+                                                rollnoF,
+                                                (String) as.get("contact"),
+                                                passwordF,
+                                                (String) as.get("course"),
+                                                (String) as.get("branch"));
+                                        Log.e(TAG, "onDataChange: Sucessfully added" );
+                                    } else {
+                                        alertDialog("You Entered Wrong password.");
+                                    }
+                                }
+                            }
+                        }
+                    } catch (Exception ignored) {
+                    }
+                } else {
+                    dialog.dismiss();
+                    alertDialog("Invalid Registration number.");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+    }
+    private void sucessfullyVerified(String strName , String strEmail , String strRollno , String strContact , String strPassword , String strCourse , String strBranch) {
+        prefs = getSharedPreferences(preference, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("name", strName);
+        editor.putString("email", strEmail);
+        editor.putString("rollno", strRollno);
+        editor.putString("contact", strContact);
+        editor.putString("password", strPassword);
+        editor.putString("course", strCourse);
+        editor.putString("branch", strBranch);
+        editor.apply();
+        Intent intent = new Intent(SplashActivity.this,CheckInOutActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+
+    }
     protected void onResume() {
         prefs = getSharedPreferences(preference, Context.MODE_PRIVATE);
         if (prefs.contains("rollno")) {

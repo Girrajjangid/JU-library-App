@@ -27,6 +27,7 @@ public class CheckInOutActivity extends AppCompatActivity {
         textView5 = findViewById(R.id.textView6);
         textView6 = findViewById(R.id.textView7);
         prefs = getSharedPreferences(preference, Context.MODE_PRIVATE);
+
         textView.setText(String.valueOf(prefs.getString("name", "null")));
         textView1.setText(String.valueOf(prefs.getString("rollno", "null")));
         textView2.setText(String.valueOf(prefs.getString("contact", "null")));

@@ -3,6 +3,7 @@ package com.library.libraryproject;
 import android.app.Activity;
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -34,6 +35,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.library.libraryproject.Utility;
 
 import java.util.concurrent.TimeUnit;
@@ -57,13 +60,16 @@ public class OTPActivity extends AppCompatActivity {
     private RelativeLayout rlResend;
     private ProgressBar pbVerify;
     private String strPhoneCode;
-    private String strPhoneNumber;
+    private String strContact , strName , strCourse , strBranch , strPassword , strEmail , strRollno;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
     private FirebaseAuth mAuth;
     private String mVerificationId;
     private CountDownTimer countDownTimer;
-
+    private DatabaseReference ref;
     private PhoneAuthProvider.ForceResendingToken mResendToken;
+    SharedPreferences prefs;
+    public static final String preference = "UserData";
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,13 +80,16 @@ public class OTPActivity extends AppCompatActivity {
 
 
         if (getIntent().getExtras() != null) {
-            if (getIntent().hasExtra(AppConstant.PhoneNumber)) {
-                strPhoneNumber = getIntent().getStringExtra(AppConstant.PhoneNumber);
-            }
+            strContact = getIntent().getStringExtra(AppConstant.Contact);
+            strName = getIntent().getStringExtra(AppConstant.Name);
+            strCourse = getIntent().getStringExtra(AppConstant.Course);
+            strBranch = getIntent().getStringExtra(AppConstant.Branch);
+            strPassword = getIntent().getStringExtra(AppConstant.Password);
+            strEmail = getIntent().getStringExtra(AppConstant.Email);
+            strRollno = getIntent().getStringExtra(AppConstant.RollNo);
 
             tvToolbarBack.setText("<  ");
-            tvToolbarTitle.setText(strPhoneNumber );
-
+            tvToolbarTitle.setText(strContact);
         }
 
         mAuth = FirebaseAuth.getInstance();
@@ -116,9 +125,28 @@ public class OTPActivity extends AppCompatActivity {
             }
         };
         //sending OTP
-        startPhoneNumberVerification(strPhoneNumber);
-    }
+        startPhoneNumberVerification(strContact);
 
+    }
+    private void sucessfullyVerified() {
+        ref = FirebaseDatabase.getInstance().getReference();
+        ref.child("students").child(strRollno).child("password").setValue(strPassword);
+        prefs = getSharedPreferences(preference, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("name", strName);
+        editor.putString("email", strEmail);
+        editor.putString("rollno", strRollno);
+        editor.putString("contact", strContact);
+        editor.putString("password", strPassword);
+        editor.putString("course", strCourse);
+        editor.putString("branch", strBranch);
+        editor.apply();
+        Intent intent = new Intent(OTPActivity.this,CheckInOutActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+
+    }
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -128,15 +156,9 @@ public class OTPActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Utility.log("signInWithCredential:success");
                             pbVerify.setVisibility(View.GONE);
-
-                            final FirebaseUser user = task.getResult().getUser();
                             new Handler().postDelayed(() -> {
-                                Intent intent = new Intent();
-                                intent.putExtra(AppConstant.PhoneNumber, strPhoneNumber);
-                                setResult(RESULT_OK, intent);
-                                finish();
-                            }, 1000);
-
+                                sucessfullyVerified();
+                                }, 1000);
                         } else {
                             // Sign in failed, display a message and update the UI
                             pbVerify.setVisibility(View.GONE);
@@ -161,7 +183,6 @@ public class OTPActivity extends AppCompatActivity {
             }
         });
         pbVerify = findViewById(R.id.pbVerify);
-
         btnContinue = findViewById(R.id.btnContinue);
         btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,7 +210,7 @@ public class OTPActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Utility.hideKeyBoardFromView(mActivity);
                 if (mResendToken != null)
-                    resendVerificationCode( strPhoneNumber, mResendToken);
+                    resendVerificationCode( strPhoneCode, mResendToken);
                 else {
 
                     Toast.makeText(mActivity, "Try again", Toast.LENGTH_SHORT).show();
@@ -217,9 +238,7 @@ public class OTPActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 signOut();
-
                 finish();
-                //onBackPressed();
             }
         });
 
@@ -346,71 +365,56 @@ public class OTPActivity extends AppCompatActivity {
             }
             return false;
         });
-        etDigit2.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_DEL) {
-                    if (etDigit2.getText().toString().trim().length() == 0)
-                        etDigit1.requestFocus();
-                } else {
-                    if (etDigit2.getText().toString().trim().length() == 1) {
-                        etDigit3.requestFocus();
-                    }
+        etDigit2.setOnKeyListener((v, keyCode, event) -> {
+            if (keyCode == KeyEvent.KEYCODE_DEL) {
+                if (etDigit2.getText().toString().trim().length() == 0)
+                    etDigit1.requestFocus();
+            } else {
+                if (etDigit2.getText().toString().trim().length() == 1) {
+                    etDigit3.requestFocus();
                 }
-                return false;
             }
+            return false;
         });
-        etDigit3.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_DEL) {
-                    if (etDigit3.getText().toString().trim().length() == 0)
-                        etDigit2.requestFocus();
-                } else {
-                    if (etDigit3.getText().toString().trim().length() == 1) {
-                        etDigit4.requestFocus();
-                    }
+        etDigit3.setOnKeyListener((v, keyCode, event) -> {
+            if (keyCode == KeyEvent.KEYCODE_DEL) {
+                if (etDigit3.getText().toString().trim().length() == 0)
+                    etDigit2.requestFocus();
+            } else {
+                if (etDigit3.getText().toString().trim().length() == 1) {
+                    etDigit4.requestFocus();
                 }
-                return false;
             }
+            return false;
         });
-        etDigit4.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_DEL) {
-                    if (etDigit4.getText().toString().trim().length() == 0)
-                        etDigit3.requestFocus();
-                } else {
-                    if (etDigit4.getText().toString().trim().length() == 1) {
-                        etDigit5.requestFocus();
-                    }
+        etDigit4.setOnKeyListener((v, keyCode, event) -> {
+            if (keyCode == KeyEvent.KEYCODE_DEL) {
+                if (etDigit4.getText().toString().trim().length() == 0)
+                    etDigit3.requestFocus();
+            } else {
+                if (etDigit4.getText().toString().trim().length() == 1) {
+                    etDigit5.requestFocus();
                 }
-                return false;
             }
+            return false;
         });
-        etDigit5.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_DEL) {
-                    if (etDigit5.getText().toString().trim().length() == 0)
-                        etDigit4.requestFocus();
-                } else {
-                    if (etDigit5.getText().toString().trim().length() == 1) {
-                        etDigit6.requestFocus();
-                    }
+        etDigit5.setOnKeyListener((v, keyCode, event) -> {
+            if (keyCode == KeyEvent.KEYCODE_DEL) {
+                if (etDigit5.getText().toString().trim().length() == 0)
+                    etDigit4.requestFocus();
+            } else {
+                if (etDigit5.getText().toString().trim().length() == 1) {
+                    etDigit6.requestFocus();
                 }
-                return false;
             }
+            return false;
         });
-        etDigit6.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_DEL) {
-                    if (etDigit6.getText().toString().trim().length() == 0)
-                        etDigit5.requestFocus();
-                }
-                return false;
+        etDigit6.setOnKeyListener((v, keyCode, event) -> {
+            if (keyCode == KeyEvent.KEYCODE_DEL) {
+                if (etDigit6.getText().toString().trim().length() == 0)
+                    etDigit5.requestFocus();
             }
+            return false;
         });
 
     }
@@ -456,11 +460,6 @@ public class OTPActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         signOut();
-
-        /*Intent intent = new Intent(mActivity, OTPActivity.class);
-        intent.putExtra(AppConstant.PhoneNumber, strPhoneNumber);
-        startActivity(intent);
-        finish();*/
     }
 
     private void startCounter() {

@@ -22,7 +22,7 @@
         android:theme="@style/Custom1"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".LivePreviewActivity">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -30,7 +30,7 @@
         </activity>
 
         <activity
-            android:name=".SplashActivity"
+            android:name=".BarcodeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".CheckInOutActivity"
@@ -40,9 +40,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".SignUpActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".BarcodeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".FirebaseActivity"

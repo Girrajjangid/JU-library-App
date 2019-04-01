@@ -14,6 +14,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -37,8 +38,6 @@ public class SignUpActivity extends AppCompatActivity {
     private static final int REQUEST_FOR_OTPACTIVITY = 789 , REQUEST_FOR_ACTIVITY = 456;
     EditText nameET, contactET, passwordET;
     Button rollnoBT;
-    SharedPreferences prefs;
-    public static final String preference = "UserData";
     String rollnoOnButton, newbarcode;
     ProgressDialog dialog;
     DatabaseReference ref;
@@ -49,6 +48,8 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        PermissionHelper.askPermission(this,SignUpActivity.this);
 
         TextInputLayout usernameTextObj = findViewById(R.id.inputlayout12);
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/lekton_bold.ttf");
@@ -69,10 +70,10 @@ public class SignUpActivity extends AppCompatActivity {
         password = passwordET.getText().toString().trim();
         rollno = newbarcode;
 
-        /*name = "asdasdf";
+        name = "GIRRAJ JANGID";
         contact = "8302701556";
-        password = "asdasd";
-        rollno = "16BCON046";*/
+        password = "6546546";
+        rollno = "16BCON046";
 
         if (name.isEmpty()) {
             nameET.setError("Enter Name");
@@ -84,20 +85,25 @@ public class SignUpActivity extends AppCompatActivity {
             passwordET.setError("Enter at least 5 characters");
             passwordET.requestFocus();
         }
-        else if (newbarcode == null) {
+        else if (rollno == null) {
             alertDialog("Scan your Id card.");
         }
         else {
             progressDialog();
             contact = "+91" + contact;
-            checkVerification(rollno, contact, password);
+            name = name.trim().replaceAll("\\s+", " ").toUpperCase();
+            checkVerification(name , rollno, contact, password);
         }
 
     }
 
     public void scanBarcode(View view) {
-        Intent intent = new Intent(SignUpActivity.this, BarcodeActivity.class);
-        startActivityForResult(intent, REQUEST_FOR_ACTIVITY);
+        if (PermissionHelper.allPermissionsGranted(this)) {
+            Intent intent = new Intent(SignUpActivity.this, BarcodeActivity.class);
+            startActivityForResult(intent, REQUEST_FOR_ACTIVITY);
+        } else {
+            PermissionHelper.getRuntimePermissions(this, SignUpActivity.this);
+        }
 
     }
 
@@ -113,43 +119,15 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         }
-        if (REQUEST_FOR_OTPACTIVITY == requestCode) {
-                if(resultCode == RESULT_OK) {
-                    if ( data != null && data.hasExtra(AppConstant.PhoneNumber) && data.getStringExtra(AppConstant.PhoneNumber) != null) {
-                        String no = data.getStringExtra(AppConstant.PhoneNumber);
-                        Toast.makeText(this, no + "Verified", Toast.LENGTH_SHORT).show();
-                        sucessfullyVerified();
-                    }
-                }
-                else{
-                Toast.makeText(this, "failed", Toast.LENGTH_SHORT).show();
-            }
-        }
+
     }
 
-    private void sucessfullyVerified() {
-        ref.child("students").child(rollno).child("password").setValue(password);
-        prefs = getSharedPreferences(preference, MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("name", nameF);
-        editor.putString("email", emailF);
-        editor.putString("rollno", rollnoF);
-        editor.putString("contact", contactF);
-        editor.putString("password", password);
-        editor.putString("course", courceF);
-        editor.putString("branch", branchF);
-        editor.apply();
-        Intent intent = new Intent(SignUpActivity.this,CheckInOutActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        finish();
-    }
 
     private void progressDialog() {
         dialog = ProgressDialog.show(SignUpActivity.this, "Loading...", "Please wait...", true);
     }
 
-    private void checkVerification(String rollno, String contact, String password) {
+    private void checkVerification(String name , String rollno, String contact, String password) {
 
         ref.child("students").orderByChild("contact").equalTo(contact).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -164,19 +142,30 @@ public class SignUpActivity extends AppCompatActivity {
                                     HashMap as = (HashMap) ds.getValue();
                                     if (as != null) {
                                         passwordF = (String) as.get("password");
-                                        if (passwordF.isEmpty()) {
-                                            branchF   = (String) as.get("branch");
-                                            contactF   = (String) as.get("contact");
-                                            courceF  = (String) as.get("course");
-                                            emailF = (String) as.get("email");
-                                            nameF  = (String) as.get("name");
-                                            alertDialogOTP("OTP send on this entered number." , contact );
+                                        nameF = (String) as.get("name");
+                                        if (name.equalsIgnoreCase(nameF)) {
+                                            if (passwordF.isEmpty()) {
+                                                branchF = (String) as.get("branch");
+                                                contactF = (String) as.get("contact");
+                                                courceF = (String) as.get("course");
+                                                emailF = (String) as.get("email");
+                                                alertDialogOTP("You receive an OTP on "+ contact + " number. \nPlease click on send.",
+                                                        nameF,
+                                                        branchF,
+                                                        courceF,
+                                                        emailF,
+                                                        password,
+                                                        contact,
+                                                        rollnoF);
+                                            } else {
+                                                alertDialog("You already registered.");
+                                            }
                                         } else {
-                                            alertDialog("You already registered");
+                                            alertDialog("Invalid Name.");
                                         }
                                     }
                                 } else {
-                                    alertDialog("Registration number does not match with registered mobile number.");
+                                    alertDialog("We didn't recognize this details. Please try again.");
                                 }
                             }
                         }
@@ -184,28 +173,35 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                 } else {
                     dialog.dismiss();
-                    alertDialog("Registration number does not match with registered mobile number.");
+                    alertDialog("We didn't recognize this details. Please try again..");
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(SignUpActivity.this, "Wrong Details", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
-    private void alertDialogOTP(String message,String contact) {
+    private void alertDialogOTP(String message, String nameF, String branchF, String courceF, String emailF, String password,
+                                String contact, String rollnoF) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(message).setCancelable(false).
                 setPositiveButton("Send", (dialogInterface, i) -> {
 
                     Intent intent = new Intent(SignUpActivity.this , OTPActivity.class);
-                    intent.putExtra("PhoneNumber", contact);
+                    intent.putExtra(AppConstant.Name, nameF);
+                    intent.putExtra(AppConstant.Branch, branchF);
+                    intent.putExtra(AppConstant.Contact, contact);
+                    intent.putExtra(AppConstant.Course, courceF);
+                    intent.putExtra(AppConstant.Email, emailF);
+                    intent.putExtra(AppConstant.Password, password);
+                    intent.putExtra(AppConstant.RollNo, rollnoF);
+                    startActivity(intent);
 
-                    startActivityForResult(intent, REQUEST_FOR_OTPACTIVITY);
-                }).setNegativeButton("No", (dialog, which) -> dialog.cancel()).create().show();
+                })
+                .setNegativeButton("No", (dialog, which) -> dialog.cancel()).create().show();
     }
 
     public void alertDialog(String message) {

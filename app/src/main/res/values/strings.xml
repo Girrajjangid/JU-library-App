@@ -22,9 +22,10 @@
     <string name="registration_number">Registration Number</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_in">Sign In</string>
-    <string name="password">Password</string>
     <string name="we_sent_you_a_6_digit_code">We sent you a 6-digit code.</string>
     <string name="_continue">Continue</string>
     <string name="new_user">New User?</string>
+    <string name="password">Password</string>
 
+<string name="OTPmessage">OTP sent on this <b>"password"</b> glad to see you.</string>
 </resources>

@@ -14,7 +14,15 @@ package com.library.libraryproject;
 
 public class AppConstant {
     static final String COUNTRY = "COUNTRY";
-    static final String PhoneNumber = "PhoneNumber";
+
+    static final String Contact = "contact";
+    static final String Course = "course";
+    static final String Name = "name";
+    static final String Password = "password";
+    static final String Branch = "branch";
+    static final String Email= "email";
+    static final String RollNo= "rollno";
+
     static final String PhoneCode = "PhoneCode";
     static final String PLUS = "+";
 

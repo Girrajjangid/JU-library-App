@@ -51,11 +51,12 @@
                     android:focusedByDefault="false"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
-                    
+                    android:maxLength="9"
                     android:hint="@string/registration_number"
                     android:textAllCaps="true"
                     android:textSize="18sp"
                     android:padding="5dp"
+                    android:textColor="@color/white"
                     android:inputType="text"
                     android:id="@+id/logginrollno"
                     tools:ignore="UnusedAttribute" />
@@ -82,16 +83,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/lekton_bold"
-
+                        android:textColor="@color/white"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
-
-                        android:hint="Password"
+                        android:hint="@string/password"
                         android:textSize="18sp"
                         android:padding="8dp"
                         android:inputType="textPassword"
                         android:id="@+id/logginpassword"
-                        />
+                         />
                     <View
                         android:id="@+id/view2"
                         android:layout_width="match_parent"
