@@ -7,11 +7,11 @@ import android.net.Uri;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,41 +24,27 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
 
+public class CheckInOutBarcodeActivity extends AppCompatActivity {
 
-public class BarcodeActivity extends AppCompatActivity {
     SurfaceView surfaceView;
     TextView textView;
     CameraSource cameraSource;
     BarcodeDetector barcodeDetector;
-    ToggleButton toggleButton;
     private static final String TAG = "BarcodeActivity";
+    String barcodeSaved;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_barcode);
+        setContentView(R.layout.activity_check_in_out_barcode);
 
-        toggleButton = findViewById(R.id.tv_pmpSwitch);
 
-        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                try {
-                    if (isChecked) {
-                        FlashLight.flashLightOn(isChecked, BarcodeActivity.this);
-                    } else {
-                        FlashLight.flashLightOff(isChecked, BarcodeActivity.this);
-                    }
-                } catch (Exception e) {
-                    Log.e(TAG, "onCheckedChanged: Exception exists", e.getCause());
-                }
-            }
-        });
+        barcodeSaved = getResources().getString(R.string.barcodesaved);
 
-        surfaceView = findViewById(R.id.camera_surfaceview_outer);
-        textView = findViewById(R.id.tv);
+        surfaceView = findViewById(R.id.camera_surfaceview_outer1);
 
-        barcodeDetector = new BarcodeDetector.Builder(this).setBarcodeFormats(Barcode.CODE_128).build();
+        barcodeDetector = new BarcodeDetector.Builder(this).setBarcodeFormats(Barcode.QR_CODE).build();
         cameraSource = new CameraSource.Builder(this, barcodeDetector)
                 .setRequestedPreviewSize(1024, 768)
                 .setAutoFocusEnabled(true)
@@ -91,7 +77,6 @@ public class BarcodeActivity extends AppCompatActivity {
         barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
             @Override
             public void release() {
-
             }
 
             @Override
@@ -101,19 +86,13 @@ public class BarcodeActivity extends AppCompatActivity {
                     Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
                     vibrator.vibrate(500);
                     String barcode = String.valueOf(codes.valueAt(0).displayValue);
-                    if (barcode.length() != 9) {
-                        Toast.makeText(BarcodeActivity.this, "Wrong Barcode", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Intent intent = new Intent();
-                        intent.setData(Uri.parse(barcode));
-                        setResult(RESULT_OK, intent);
-                        finish();
-                    }
-
+                    Intent intent = new Intent();
+                    intent.setData(Uri.parse(barcode));
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
             }
         });
-
     }
 
     @Override
@@ -132,4 +111,3 @@ public class BarcodeActivity extends AppCompatActivity {
         }
     }
 }
-

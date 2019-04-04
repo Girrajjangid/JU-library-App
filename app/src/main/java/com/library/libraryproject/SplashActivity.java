@@ -46,6 +46,7 @@ public class SplashActivity extends AppCompatActivity {
     String rollno, password;
     ProgressDialog dialog;
     SharedPreferences prefs;
+    Button signup;
     public static final String preference = "UserData";
     private static final String TAG = "SplashActivity";
     private String nameF , branchF , contactF , courceF ,emailF;
@@ -57,7 +58,7 @@ public class SplashActivity extends AppCompatActivity {
 
         rollnoET = findViewById(R.id.logginrollno);
         passwordET = findViewById(R.id.logginpassword);
-
+        signup = findViewById(R.id.signup_key);
         TextInputLayout usernameTextObj = findViewById(R.id.inputlayout123);
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/lekton_bold.ttf");
         usernameTextObj.setTypeface(font);
@@ -75,7 +76,14 @@ public class SplashActivity extends AppCompatActivity {
         /*EditText password = (EditText) findViewById(R.id.register_password_text);
         password.setTypeface(Typeface.DEFAULT);
         password.setTransformationMethod(new PasswordTransformationMethod());*/
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                signUp(v);
+
+            }
+        });
 
         new Handler().postDelayed(() -> {
             imageViewlogo.animate().translationY(50).setDuration(800);

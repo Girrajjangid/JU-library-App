@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.library.libraryproject"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -35,12 +35,14 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
 
-    implementation 'com.google.firebase:firebase-ml-vision:19.0.2'
+    implementation 'com.google.firebase:firebase-ml-vision:19.0.3'
     implementation 'com.google.firebase:firebase-core:16.0.8'
     implementation 'com.android.support:cardview-v7:28.0.0'
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.google.firebase:firebase-auth:16.2.0'
-    implementation 'com.google.firebase:firebase-database:16.0.1'
+    implementation 'com.google.firebase:firebase-database:16.1.0'
 
+    implementation 'org.mongodb:stitch-android-sdk:4.2.1'
+    implementation 'org.mongodb:stitch-android-services-mongodb-local:4.2.1'
 }
 apply plugin: 'com.google.gms.google-services'

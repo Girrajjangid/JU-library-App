@@ -42,7 +42,7 @@ public class SignUpActivity extends AppCompatActivity {
     ProgressDialog dialog;
     DatabaseReference ref;
     String name, contact , rollno , password;
-    String branchF , contactF , emailF , nameF , courceF  , passwordF , rollnoF;
+    String branchF , contactF , emailF , nameF , courceF  , passwordF , rollnoF , batchF;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,16 +70,11 @@ public class SignUpActivity extends AppCompatActivity {
         password = passwordET.getText().toString().trim();
         rollno = newbarcode;
 
-        name = "GIRRAJ JANGID";
-        contact = "8302701556";
-        password = "6546546";
-        rollno = "16BCON046";
-
         if (name.isEmpty()) {
             nameET.setError("Enter Name");
             nameET.requestFocus();
         } else if (contact.isEmpty()|| contact.length() != 10) {
-            contactET.setError("Enter Contact");
+            contactET.setError("Invalid Contact");
             contactET.requestFocus();
         } else if (password.isEmpty() || password.length() < 5) {
             passwordET.setError("Enter at least 5 characters");
@@ -104,7 +99,6 @@ public class SignUpActivity extends AppCompatActivity {
         } else {
             PermissionHelper.getRuntimePermissions(this, SignUpActivity.this);
         }
-
     }
 
     @Override
@@ -149,6 +143,7 @@ public class SignUpActivity extends AppCompatActivity {
                                                 contactF = (String) as.get("contact");
                                                 courceF = (String) as.get("course");
                                                 emailF = (String) as.get("email");
+                                                batchF = (String) as.get("batch");
                                                 alertDialogOTP("You receive an OTP on "+ contact + " number. \nPlease click on send.",
                                                         nameF,
                                                         branchF,
@@ -156,7 +151,8 @@ public class SignUpActivity extends AppCompatActivity {
                                                         emailF,
                                                         password,
                                                         contact,
-                                                        rollnoF);
+                                                        rollnoF,
+                                                        batchF);
                                             } else {
                                                 alertDialog("You already registered.");
                                             }
@@ -185,7 +181,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void alertDialogOTP(String message, String nameF, String branchF, String courceF, String emailF, String password,
-                                String contact, String rollnoF) {
+                                String contact, String rollnoF,String batchF) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(message).setCancelable(false).
                 setPositiveButton("Send", (dialogInterface, i) -> {
@@ -198,6 +194,7 @@ public class SignUpActivity extends AppCompatActivity {
                     intent.putExtra(AppConstant.Email, emailF);
                     intent.putExtra(AppConstant.Password, password);
                     intent.putExtra(AppConstant.RollNo, rollnoF);
+                    intent.putExtra(AppConstant.BATCH, batchF);
                     startActivity(intent);
 
                 })

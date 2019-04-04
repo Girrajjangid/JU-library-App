@@ -6,9 +6,11 @@
 
     <color name="custom1Primary">#344955</color>
     <color name="custom1PrimaryDark">#232F34</color>
+    <color name="custom1PrimaryDarkcheckin">#232F34</color>
     <color name="custom1PrimaryDark2">#50899E</color>
-    <color name="custom1TextInputBackgroun">#DAEFF8</color>
+    <color name="custom1TextInputBackgroun">#C7E8F8</color>
     <color name="custom1Accent">#F9AA33</color>
+    <color name="red">#FC0D0D</color>
 
     <color name="custom2Primary">#37966F</color>
     <color name="custom2PrimaryLight">#B9E4C9</color>

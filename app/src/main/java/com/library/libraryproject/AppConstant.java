@@ -12,19 +12,32 @@
 
 package com.library.libraryproject;
 
-public class AppConstant {
-    static final String COUNTRY = "COUNTRY";
+public  class AppConstant {
+
+    static final String MONGODB_SERVICE= "mongodb-atlas";
+    static final String MONGODB_INIT =  "mongodb_init";
+    static final String OWNER_ID= "owner_id";
+    static final String UNIQUE_ID= "unique_id";
 
     static final String Contact = "contact";
     static final String Course = "course";
+    static final String STREAM = "stream";
+    static final String BATCH  = "batch";
+    static final String TIME  = "time";
     static final String Name = "name";
     static final String Password = "password";
     static final String Branch = "branch";
     static final String Email= "email";
     static final String RollNo= "rollno";
 
-    static final String PhoneCode = "PhoneCode";
-    static final String PLUS = "+";
+    static final String ChECKINOUT_STATUS = "checkinoutstatus";
+    static final String ChECKINOUT_UNIQUEID= "checkinoutniqueid";
+    static final String ChECKIN= "checkIn";
+    static final String ChECKOUT= "checkOut";
+    static final String PREFERENCENAME = "UserData";
+    static final String TIME_CHECKOUT = "time.checkOut";
+    static final String CHECKOUT_MESSAGE = "For Check-Out Scan QR code";
+    static final String CHECKIN_MESSAGE = "For Check-In Scan QR code";
 
 
 }

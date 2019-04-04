@@ -23,9 +23,21 @@
     <string name="sign_up">Sign Up</string>
     <string name="sign_in">Sign In</string>
     <string name="we_sent_you_a_6_digit_code">We sent you a 6-digit code.</string>
+    <string name="checkin">Check In</string>
     <string name="_continue">Continue</string>
+    <string name="checkout">Check Out</string>
     <string name="new_user">New User?</string>
     <string name="password">Password</string>
+    <string name="barcodesaved">"q1df4fvc5ds8as1aavr"</string>
 
-<string name="OTPmessage">OTP sent on this <b>"password"</b> glad to see you.</string>
+    <string name="OTPmessage">OTP sent on this <b>"password"</b> glad to see you.</string>
+    <string name="checouttext">For Check-Out Scan QR code</string>
+    <string name="checkintext">For Check-In Scan QR code</string>
+
+    <string name="mongoDBdatabase">library_database</string>
+    <string name="mongoDBcollection">library_collection</string>
+    <string name="mongoDBappid">ju-libraryapp-hptlt</string>
+    <string name="stitch_client_app_id">ju-libraryapp-hptlt</string>
+
+
 </resources>
