@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.graphics.drawable.TransitionDrawable;
+import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -36,6 +38,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class SplashActivity extends AppCompatActivity {
 
     Animation anim1, anim2, anim3;
@@ -50,7 +54,7 @@ public class SplashActivity extends AppCompatActivity {
     public static final String preference = "UserData";
     private static final String TAG = "SplashActivity";
     private String nameF , branchF , contactF , courceF ,emailF;
-
+    SweetAlertDialog sweetAlertDialog ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,18 +103,47 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void alertDialog(String message) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        /*final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(message).setCancelable(true).
                 setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.cancel();
                     }
-                }).create().show();
+                }).create().show();*/
+        /*  alertdialog.builder abuilder = new alertdialog.builder(this);
+        abuilder.setmessage(mess);
+        abuilder.setpositivebutton("ok", new dialoginterface.onclicklistener() {
+            @override
+            public void onclick(dialoginterface dialoginterface, int i) {
+                dialoginterface.cancel();
+            }
+        }).create().show();
+       */
+
+       /*SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Loading");
+        pDialog.setCancelable(false);
+        pDialog.show();
+       */
+        SweetAlertDialog dialog = new SweetAlertDialog(SplashActivity.this, SweetAlertDialog.ERROR_TYPE);
+        dialog.setTitleText("Oops...");
+        dialog.setContentText(message);
+        dialog.setConfirmText("OK")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                }).show();
+
     }
 
     private void progressDialogStart() {
-        dialog = ProgressDialog.show(SplashActivity.this, "Loading...", "Please wait...", true);
+
+        sweetAlertDialog = Utility.sweetAlertDialogStart(this,"Loading...","Please wait...", SweetAlertDialog.PROGRESS_TYPE);
+        //dialog = ProgressDialog.show(SplashActivity.this, "Loading...", "Please wait...", true);
     }
 
     public void signUp(View view) {
@@ -121,7 +154,12 @@ public class SplashActivity extends AppCompatActivity {
 
         String password = passwordET.getText().toString().trim();
         String rollno = rollnoET.getText().toString().trim();
-        if (rollno.isEmpty()) {
+
+        if(!Utility.isConnected(SplashActivity.this)){
+            View parentLayout = findViewById(android.R.id.content);
+            Snackbar.make(parentLayout, "No Internet Connection", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+        } else if (rollno.isEmpty()) {
             rollnoET.setError("Enter Registration No.");
             rollnoET.requestFocus();
         } else if (password.isEmpty() || password.length() < 5) {
@@ -141,7 +179,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    dialog.dismiss();
+                    sweetAlertDialog.dismissWithAnimation();
                     try {
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
                             String rollnoF = ds.getKey();
@@ -161,7 +199,7 @@ public class SplashActivity extends AppCompatActivity {
                                                 (String) as.get("branch"));
                                         Log.e(TAG, "onDataChange: Sucessfully added" );
                                     } else {
-                                        alertDialog("You Entered Wrong password.");
+                                        alertDialog("Wrong password.");
                                     }
                                 }
                             }
@@ -169,7 +207,7 @@ public class SplashActivity extends AppCompatActivity {
                     } catch (Exception ignored) {
                     }
                 } else {
-                    dialog.dismiss();
+                    sweetAlertDialog.dismissWithAnimation();
                     alertDialog("Invalid Registration number.");
                 }
             }
@@ -180,7 +218,7 @@ public class SplashActivity extends AppCompatActivity {
         });
 
     }
-    private void sucessfullyVerified(String strName , String strEmail , String strRollno , String strContact , String strPassword , String strCourse , String strBranch) {
+    private void sucessfullyVerified( String strName , String strEmail , String strRollno , String strContact , String strPassword , String strCourse , String strBranch) {
         prefs = getSharedPreferences(preference, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("name", strName);
@@ -198,13 +236,18 @@ public class SplashActivity extends AppCompatActivity {
 
     }
     protected void onResume() {
-        prefs = getSharedPreferences(preference, Context.MODE_PRIVATE);
-        if (prefs.contains("rollno")) {
-            if (prefs.contains("password")) {
-                Intent i = new Intent(this, CheckInOutActivity.class);
-                startActivity(i);
-                finish();
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            prefs = getSharedPreferences(preference, Context.MODE_PRIVATE);
+            if (prefs.contains("rollno")) {
+                if (prefs.contains("password")) {
+                    Intent i = new Intent(this, CheckInOutActivity.class);
+                    startActivity(i);
+                    finish();
+                }
             }
+        }else{
+            Toast.makeText(this, "This App doesn't work properly in your phone.", Toast.LENGTH_SHORT).show();
+            finish();
         }
         super.onResume();
     }

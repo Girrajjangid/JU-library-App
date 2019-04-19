@@ -38,6 +38,8 @@ import java.util.Date;
 import java.util.Random;
 import java.util.Set;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class MongoDBHelper {
     String appid = null;
     Context context;
@@ -49,7 +51,7 @@ public class MongoDBHelper {
     private RemoteMongoClient mongoClient = null;
     Date checkindate;
     SharedPreferences prefs = null;
-    ProgressDialog dialog;
+    SweetAlertDialog dialog;
     Activity activity;
     TextView tvname , tvqrcodename;
     ImageView qrcodeiv;
@@ -57,7 +59,7 @@ public class MongoDBHelper {
     public static final String preference = AppConstant.PREFERENCENAME;
 
     public MongoDBHelper(Activity activity,
-            Context context, String appid, String database, String collection, SharedPreferences prefs , ProgressDialog dialog) {
+            Context context, String appid, String database, String collection, SharedPreferences prefs , SweetAlertDialog dialog) {
         this.appid = appid;
         this.context = context;
         this.database = database;
@@ -125,15 +127,15 @@ public class MongoDBHelper {
         Log.e(TAG, "insertingNew: " + String.valueOf(random_no1) + String.valueOf(random_no2));
         final Document newItem = new Document(AppConstant.OWNER_ID, client.getAuth().getUser().getId())
                 .append(AppConstant.UNIQUE_ID, random_id)
-                .append(AppConstant.Name, prefs.getString(AppConstant.Name,null))
+                .append(AppConstant.Name, prefs.getString(AppConstant.Name, null))
                 .append(AppConstant.STREAM, new Document()
-                        .append(AppConstant.Course, prefs.getString(AppConstant.Course,null))
-                        .append(AppConstant.Branch, prefs.getString(AppConstant.Branch,null))
-                        .append(AppConstant.BATCH, prefs.getString(AppConstant.BATCH,null))
+                        .append(AppConstant.Course, prefs.getString(AppConstant.Course, null))
+                        .append(AppConstant.Branch, prefs.getString(AppConstant.Branch, null))
+                        .append(AppConstant.BATCH, prefs.getString(AppConstant.BATCH, null))
                 )
-                .append(AppConstant.RollNo,prefs.getString(AppConstant.RollNo ,null))
-                .append(AppConstant.Contact, prefs.getString(AppConstant.Contact , null))
-                .append(AppConstant.Email,prefs.getString(AppConstant.Email,null))
+                .append(AppConstant.RollNo, prefs.getString(AppConstant.RollNo, null))
+                .append(AppConstant.Contact, prefs.getString(AppConstant.Contact, null))
+                .append(AppConstant.Email, prefs.getString(AppConstant.Email, null))
                 .append(AppConstant.TIME, new Document()
                         .append(AppConstant.ChECKIN, date)
                         .append(AppConstant.ChECKOUT, "")
@@ -145,19 +147,26 @@ public class MongoDBHelper {
             @Override
             public void onComplete(@NonNull Task<RemoteInsertOneResult> task) {
                 if (task.isSuccessful()) {
-                    editor.putString(AppConstant.ChECKINOUT_UNIQUEID , random_id);
+                    editor.putString(AppConstant.ChECKINOUT_UNIQUEID, random_id);
                     editor.apply();
-                    dialog.dismiss();
-                    Toast.makeText(context, "Successfully checked In", Toast.LENGTH_SHORT).show();
                     Log.e(TAG, String.format("successfully inserted item with id %s", task.getResult().getInsertedId()));
 
                 } else {
                     Log.e("app", "failed to insert document with: ", task.getException());
                     uiUpdate();
-                    dialog.dismiss();
+
                 }
                 uiUpdate();
-
+                dialog.setTitleText("Checked-In")
+                        .showContentText(false)
+                        .setConfirmText("OK")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismissWithAnimation();
+                            }
+                        })
+                        .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
             }
         });
     }
@@ -194,41 +203,27 @@ public class MongoDBHelper {
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.remove(AppConstant.ChECKINOUT_UNIQUEID);
                     editor.apply();
-                    dialog.dismiss();
-                    Toast.makeText(context, "Successfully checked Out", Toast.LENGTH_SHORT).show();
+
                 } else {
                     Log.e("app", "failed to update document with: ", task.getException());
-                    dialog.dismiss();
+
                 }
                 uiUpdate();
-
-
+                dialog.getProgressHelper().setRimColor(R.color.custom1PrimaryDarkcheckin);
+                dialog.setTitleText("Checked-Out")
+                        .showContentText(false)
+                        .setConfirmText("OK")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismissWithAnimation();
+                            }
+                        })
+                        .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
             }
         });
     }
 
-    private class MyErrorListener implements ErrorListener {
-        @Override
-        public void onError(BsonValue documentId, Exception error) {
-            Log.e("Stitch", error.getLocalizedMessage());
-            Set<BsonValue> docsThatNeedToBeFixed = (Set<BsonValue>) coll.sync().getPausedDocumentIds();
-            for (BsonValue doc_id : docsThatNeedToBeFixed) {
-                // Add your logic to inform the user.
-                // When errors have been resolved, call
-                coll.sync().resumeSyncForDocument(doc_id);
-            }
-            // refresh the app view, etc.
-        }
-    }
 
-    private class MyUpdateListener implements ChangeEventListener<Document> {
-        @Override
-        public void onEvent(final BsonValue documentId, final ChangeEvent<Document> event) {
-            if (!event.hasUncommittedWrites()) {
-                // Custom actions can go here
-            }
-            // refresh the app view, etc.
-        }
-    }
 }
 

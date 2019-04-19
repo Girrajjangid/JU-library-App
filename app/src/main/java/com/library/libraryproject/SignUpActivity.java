@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +33,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Objects;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -70,6 +73,10 @@ public class SignUpActivity extends AppCompatActivity {
         password = passwordET.getText().toString().trim();
         rollno = newbarcode;
 
+        if(!Utility.isConnected(SignUpActivity.this)){
+            View parentLayout = findViewById(android.R.id.content);
+            Snackbar.make(parentLayout, "No Internet Connection", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        } else
         if (name.isEmpty()) {
             nameET.setError("Enter Name");
             nameET.requestFocus();
@@ -131,19 +138,25 @@ public class SignUpActivity extends AppCompatActivity {
                     try {
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
                             rollnoF = ds.getKey();
+                            Log.e("TAG", "onDataChange: execute 1" );
                             if (rollnoF != null) {
+                                Log.e("TAG", "onDataChange: execute 2" );
                                 if (rollnoF.equals(rollno)) {
+                                    Log.e("TAG", "onDataChange: execute 3" );
                                     HashMap as = (HashMap) ds.getValue();
                                     if (as != null) {
+                                        Log.e("TAG", "onDataChange: execute 4" );
                                         passwordF = (String) as.get("password");
                                         nameF = (String) as.get("name");
                                         if (name.equalsIgnoreCase(nameF)) {
+                                            Log.e("TAG", "onDataChange: execute 5" );
                                             if (passwordF.isEmpty()) {
+                                                Log.e("TAG", "onDataChange: execute 6" );
                                                 branchF = (String) as.get("branch");
                                                 contactF = (String) as.get("contact");
                                                 courceF = (String) as.get("course");
                                                 emailF = (String) as.get("email");
-                                                batchF = (String) as.get("batch");
+                                                //batchF = (String) as.get("batch");
                                                 alertDialogOTP("You receive an OTP on "+ contact + " number. \nPlease click on send.",
                                                         nameF,
                                                         branchF,
@@ -151,8 +164,8 @@ public class SignUpActivity extends AppCompatActivity {
                                                         emailF,
                                                         password,
                                                         contact,
-                                                        rollnoF,
-                                                        batchF);
+                                                        rollnoF
+                                                        );
                                             } else {
                                                 alertDialog("You already registered.");
                                             }
@@ -181,7 +194,8 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void alertDialogOTP(String message, String nameF, String branchF, String courceF, String emailF, String password,
-                                String contact, String rollnoF,String batchF) {
+                                String contact, String rollnoF) {
+        Log.e("tg", "alertDialogOTP:  77" );
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(message).setCancelable(false).
                 setPositiveButton("Send", (dialogInterface, i) -> {
@@ -194,7 +208,7 @@ public class SignUpActivity extends AppCompatActivity {
                     intent.putExtra(AppConstant.Email, emailF);
                     intent.putExtra(AppConstant.Password, password);
                     intent.putExtra(AppConstant.RollNo, rollnoF);
-                    intent.putExtra(AppConstant.BATCH, batchF);
+
                     startActivity(intent);
 
                 })
@@ -202,13 +216,15 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void alertDialog(String message) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(message).setCancelable(false).
-                setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        SweetAlertDialog dialog = new SweetAlertDialog(SignUpActivity.this, SweetAlertDialog.ERROR_TYPE);
+        dialog.setTitleText("Oops...");
+        dialog.setContentText(message);
+        dialog.setConfirmText("OK")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismissWithAnimation();
                     }
-                }).create().show();
+                }).show();
     }
 }

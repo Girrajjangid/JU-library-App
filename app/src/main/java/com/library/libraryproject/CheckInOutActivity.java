@@ -28,6 +28,8 @@ import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoCollection;
 import java.util.Date;
 import java.util.Objects;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class CheckInOutActivity extends AppCompatActivity {
     SharedPreferences prefs;
     public static final String preference = "UserData";
@@ -40,6 +42,7 @@ public class CheckInOutActivity extends AppCompatActivity {
     ImageView qrcodeiv;
     String barcodereceived;
     ProgressDialog dialog;
+    SweetAlertDialog sweetAlertDialog;
     private static final int REQUEST_FOR_ACTIVITY = 4568;
 
     @Override
@@ -75,7 +78,7 @@ public class CheckInOutActivity extends AppCompatActivity {
                             startActivity(intent);
                             Log.e(TAG, "onMenuItemClick: logout working");
                         } else {
-                            Toast.makeText(CheckInOutActivity.this, "You need to first Checkout", Toast.LENGTH_SHORT).show();
+                            progressDialogStart("You forget to Check-Out.");
                         }
                         return true;
                     default:
@@ -86,7 +89,11 @@ public class CheckInOutActivity extends AppCompatActivity {
     }
 
     public void checkIn(View view) {
-        if (PermissionHelper.allPermissionsGranted(this)) {
+        if(!Utility.isConnected(CheckInOutActivity.this)){
+            View parentLayout = findViewById(android.R.id.content);
+            Snackbar.make(parentLayout, "No Internet Connection", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+        } else if (PermissionHelper.allPermissionsGranted(this)) {
             Intent intent = new Intent(CheckInOutActivity.this, CheckInOutBarcodeActivity.class);
             startActivityForResult(intent, REQUEST_FOR_ACTIVITY);
         } else {
@@ -118,8 +125,9 @@ public class CheckInOutActivity extends AppCompatActivity {
 
     private void barcodeCorrect() {
         prefs = getSharedPreferences(preference, Context.MODE_PRIVATE);
-        progressDialogStart();
-        MongoDBHelper mongoDBHelper = new MongoDBHelper(getParent(), this, getResources().getString(R.string.mongoDBappid), getResources().getString(R.string.mongoDBdatabase), getResources().getString(R.string.mongoDBcollection), prefs, dialog);
+        progressDialogStart2();
+        MongoDBHelper mongoDBHelper = new MongoDBHelper(getParent(), this, getResources().getString(R.string.mongoDBappid), getResources().getString(R.string.mongoDBdatabase),
+                getResources().getString(R.string.mongoDBcollection), prefs, sweetAlertDialog);
 
         //mongoDBHelper.initilizing();
 
@@ -132,8 +140,26 @@ public class CheckInOutActivity extends AppCompatActivity {
         }*/
     }
 
-    private void progressDialogStart() {
-        dialog = ProgressDialog.show(CheckInOutActivity.this, "Loading...", "Please wait...", true);
+    private void progressDialogStart(String message) {
+        SweetAlertDialog dialog = new SweetAlertDialog(CheckInOutActivity.this, SweetAlertDialog.WARNING_TYPE);
+        dialog.setTitleText("Oops...");
+        dialog.setContentText(message);
+        dialog.setConfirmText("OK")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                }).show();
+    }
+
+    private void progressDialogStart2() {
+        sweetAlertDialog = new SweetAlertDialog(CheckInOutActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+        sweetAlertDialog.getProgressHelper().setBarColor(R.color.custom1PrimaryDarkcheckin);
+        sweetAlertDialog.setTitleText("Processing...");
+        sweetAlertDialog.setContentText("Please wait...");
+        sweetAlertDialog.setCancelable(false);
+        sweetAlertDialog.show();
     }
 
     @Override

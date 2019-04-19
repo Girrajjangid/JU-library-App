@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">LibraryProject</string>
     <string name="scan_id_card">Scan ID card</string>
     <string name="todo">TODO</string>
@@ -39,5 +40,5 @@
     <string name="mongoDBappid">ju-libraryapp-hptlt</string>
     <string name="stitch_client_app_id">ju-libraryapp-hptlt</string>
 
-
+    <!--gv1sasii4rayrk5iaarr8sauaa1hnsjmtshi-->
 </resources>

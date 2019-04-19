@@ -38,7 +38,7 @@ public class BarcodeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barcode);
 
-        toggleButton = findViewById(R.id.tv_pmpSwitch);
+        toggleButton = findViewById(R.id.tv_pmpSwitchpp);
 
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

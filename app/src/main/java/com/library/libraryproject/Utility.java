@@ -4,12 +4,16 @@ package com.library.libraryproject;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
 public class Utility {
@@ -25,6 +29,7 @@ public class Utility {
     public static void hideSoftKeyboard(Activity mActivity) {
         mActivity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
+
     public static ProgressDialog initProgress(Object mActivity) {
         ProgressDialog mpDialog = null;
         if (mActivity instanceof Activity) {
@@ -37,6 +42,12 @@ public class Utility {
         mpDialog.setCanceledOnTouchOutside(false);
 
         return mpDialog;
+    }
+
+    public static boolean isConnected(Activity activity) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected() && activeNetworkInfo.isAvailable();
     }
 
     public static void dialogShow(Activity mActivity, final ProgressDialog mpDialog) {
@@ -86,5 +97,30 @@ public class Utility {
                 Toast.makeText(ctx, message, Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public static SweetAlertDialog sweetAlertDialogStart(Context context, String message ,String title , int x) {
+        SweetAlertDialog dailog = new SweetAlertDialog(context, x);
+        try {
+            dailog.setCancelable(false);
+            dailog.setTitleText(title)
+                    .setContentText(message)
+                    .setConfirmText("OK")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    })
+                    .show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return dailog;
+    }
+    public static void sweetAlertDialogStop(SweetAlertDialog sweetAlertDialog) {
+
+        sweetAlertDialog.dismissWithAnimation();
+
     }
 }

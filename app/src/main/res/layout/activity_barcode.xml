@@ -6,17 +6,17 @@
     tools:context="com.library.libraryproject.BarcodeActivity">
 
     <ToggleButton
-        android:id="@+id/tv_pmpSwitch"
+        android:id="@+id/tv_pmpSwitchpp"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@drawable/torch_toggle"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:gravity="center"
+        android:clickable="true"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_margin="5dp"
-        android:onClick="torchOnOff"
         android:textOff=""
         android:textOn=""
         android:layout_alignParentStart="true" />

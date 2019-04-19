@@ -87,7 +87,7 @@ public class OTPActivity extends AppCompatActivity {
             strPassword = getIntent().getStringExtra(AppConstant.Password);
             strEmail = getIntent().getStringExtra(AppConstant.Email);
             strRollno = getIntent().getStringExtra(AppConstant.RollNo);
-            strBatch = getIntent().getStringExtra(AppConstant.BATCH);
+            //strBatch = getIntent().getStringExtra(AppConstant.BATCH);
 
             tvToolbarBack.setText("<  ");
             tvToolbarTitle.setText(strContact);
@@ -141,7 +141,7 @@ public class OTPActivity extends AppCompatActivity {
         editor.putString("password", strPassword);
         editor.putString("course", strCourse);
         editor.putString("branch", strBranch);
-        editor.putString("batch", strBatch);
+        //editor.putString("batch", strBatch);
         editor.apply();
         Intent intent = new Intent(OTPActivity.this,CheckInOutActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
