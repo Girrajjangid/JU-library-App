@@ -16,6 +16,7 @@
     <color name="custom2PrimaryLight">#B9E4C9</color>
     <color name="custom2PrimaryDark">#356859</color>
     <color name="custom2Secondary">#FD5523</color>
+    <color name="custom2Secondary22">#E97A5A</color>
     <color name="custom2SecondaryLight">#FFFBE6</color>
 
     <color name="scanner_line">#00ceff</color>
@@ -24,5 +25,13 @@
     <color name="splash_background2">#9A07F5</color>
     <color name="splash_background3">#BE1BFA</color>
     <color name="white">#FFFFFF</color>
+
+    <color name="colorRed">#ff3943</color>
+    <color name="colorRedDark">#801b20</color>
+    <color name="colorGreenLight">#abffc0</color>
+    <color name="colorGreen">#247b37</color>
+    <color name="colorGreen1">#3eb959</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorGrey">#9E9E9E</color>
 
 </resources>

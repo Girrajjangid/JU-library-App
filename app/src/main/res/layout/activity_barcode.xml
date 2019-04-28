@@ -9,53 +9,52 @@
         android:id="@+id/tv_pmpSwitchpp"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="5dp"
         android:background="@drawable/torch_toggle"
-        android:focusable="false"
+        android:clickable="true"
+        android:focusable="true"
         android:focusableInTouchMode="false"
         android:gravity="center"
-        android:clickable="true"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_margin="5dp"
         android:textOff=""
-        android:textOn=""
-        android:layout_alignParentStart="true" />
+        android:textOn="" />
 
 
-  <SurfaceView
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:layout_centerInParent="true"
-      android:id="@+id/camera_surfaceview_outer"
-      />
+    <SurfaceView
+        android:id="@+id/camera_surfaceview_outer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true" />
 
-  <View
-      android:layout_height="1dp"
-      android:background="@android:color/holo_red_light"
-      android:layout_centerInParent="true"
-      android:layout_width="match_parent"
-      android:layout_marginLeft="26dp"
-      android:layout_marginRight="26dp"
-      />
-  <ImageView
-      android:layout_width="match_parent"
-      android:layout_marginLeft="25dp"
-      android:layout_marginRight="25dp"
-      android:layout_height="180dp"
-      android:background="@drawable/frame"
-      android:layout_centerInParent="true"
-      android:contentDescription="@string/todo" />
-  <TextView
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="26dp"
+        android:layout_marginRight="26dp"
+        android:background="@android:color/holo_red_light" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:background="@drawable/frame"
+        android:contentDescription="@string/todo" />
+
+    <TextView
+        android:id="@+id/tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/focus_on_qr_code"
-        android:id="@+id/tv"
-        android:textSize="20sp"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:textColor="#FFF"
-
         android:layout_marginTop="10sp"
-      android:layout_alignParentBottom="true"
+        android:text="@string/focus_on_qr_code"
+        android:layout_marginBottom="10dp"
+        android:textColor="#FFF"
+        android:textSize="20sp"
 
         />
 </RelativeLayout>

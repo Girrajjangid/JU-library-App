@@ -39,6 +39,11 @@
     <string name="mongoDBcollection">library_collection</string>
     <string name="mongoDBappid">ju-libraryapp-hptlt</string>
     <string name="stitch_client_app_id">ju-libraryapp-hptlt</string>
+    <string name="show_password">Show Password</string>
 
+    <string name="positive_popup_text_default">Successfully </string>
+    <string name="positive_popup_title_default">Like a boos</string>
+    <string name="negative_popup_text_default">Failed</string>
+    <string name="negative_popup_title_default">AWW.. SNAP</string>
     <!--gv1sasii4rayrk5iaarr8sauaa1hnsjmtshi-->
 </resources>

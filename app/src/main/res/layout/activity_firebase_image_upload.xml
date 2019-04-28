@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp"
+    android:gravity="center">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        app:cardBackgroundColor="@color/colorGreenLight"
+        app:cardCornerRadius="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+
+                <ImageView
+                    android:id="@+id/imageviewloadurl"
+                    android:layout_width="200dp"
+                    android:layout_height="300dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:src="@drawable/ic_person_black_24dp" />
+
+                <ProgressBar
+                    android:id="@+id/homeprogress"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center" />
+
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/timings"
+                android:visibility="gone"
+                android:text=""
+                android:textStyle="bold"
+                android:fontFamily="@font/lekton_bold"
+                android:textAlignment="center"
+                android:textSize="18dp" />
+
+            <!--<TextView
+                android:fontFamily="@font/lekton_bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/showthismsg"
+                android:visibility="gone"
+                android:text="Show this message to In-charge"
+                android:textAlignment="center"
+                android:textSize="18dp" />-->
+
+            <TextView
+                android:fontFamily="@font/lekton_bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:text="Sucessfully Checked-In"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:visibility="gone"
+                android:id="@+id/successfullychedkid"
+                android:textStyle="bold" />
+            <Button
+                android:id="@+id/pressedbutton"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/button_background_positive"
+                android:text="OK"
+                android:textColor="@color/colorWhite" />
+    </LinearLayout>
+
+</android.support.v7.widget.CardView></RelativeLayout>

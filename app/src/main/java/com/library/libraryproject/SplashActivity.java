@@ -196,7 +196,9 @@ public class SplashActivity extends AppCompatActivity {
                                                 (String) as.get("contact"),
                                                 passwordF,
                                                 (String) as.get("course"),
-                                                (String) as.get("branch"));
+                                                (String) as.get("branch"),
+                                                (Long) as.get("batch"),
+                                                (String) as.get("imageurl"));
                                         Log.e(TAG, "onDataChange: Sucessfully added" );
                                     } else {
                                         alertDialog("Wrong password.");
@@ -218,7 +220,8 @@ public class SplashActivity extends AppCompatActivity {
         });
 
     }
-    private void sucessfullyVerified( String strName , String strEmail , String strRollno , String strContact , String strPassword , String strCourse , String strBranch) {
+    private void sucessfullyVerified( String strName , String strEmail , String strRollno , String strContact , String strPassword , String strCourse ,
+                                      String strBranch, Long intbatch , String imageurl) {
         prefs = getSharedPreferences(preference, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("name", strName);
@@ -228,6 +231,8 @@ public class SplashActivity extends AppCompatActivity {
         editor.putString("password", strPassword);
         editor.putString("course", strCourse);
         editor.putString("branch", strBranch);
+        editor.putString("imageurl", imageurl);
+        editor.putLong("batch", intbatch);
         editor.apply();
         Intent intent = new Intent(SplashActivity.this,CheckInOutActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -60,7 +60,8 @@ public class OTPActivity extends AppCompatActivity {
     private RelativeLayout rlResend;
     private ProgressBar pbVerify;
     private String strPhoneCode;
-    private String strContact , strName , strCourse , strBranch , strPassword , strEmail , strRollno , strBatch;
+    private String strContact , strName , strCourse , strBranch , strPassword , strEmail , strRollno , strimageurl;
+    private Long intBatch;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
     private FirebaseAuth mAuth;
     private String mVerificationId;
@@ -87,8 +88,8 @@ public class OTPActivity extends AppCompatActivity {
             strPassword = getIntent().getStringExtra(AppConstant.Password);
             strEmail = getIntent().getStringExtra(AppConstant.Email);
             strRollno = getIntent().getStringExtra(AppConstant.RollNo);
-            //strBatch = getIntent().getStringExtra(AppConstant.BATCH);
-
+            intBatch = getIntent().getLongExtra(AppConstant.BATCH,0);
+            strimageurl = getIntent().getStringExtra(AppConstant.IMAGEURL);
             tvToolbarBack.setText("<  ");
             tvToolbarTitle.setText(strContact);
         }
@@ -141,7 +142,8 @@ public class OTPActivity extends AppCompatActivity {
         editor.putString("password", strPassword);
         editor.putString("course", strCourse);
         editor.putString("branch", strBranch);
-        //editor.putString("batch", strBatch);
+        editor.putString("imageurl", strimageurl);
+        editor.putLong("batch",intBatch);
         editor.apply();
         Intent intent = new Intent(OTPActivity.this,CheckInOutActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

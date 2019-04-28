@@ -41,7 +41,7 @@ public class CheckInOutActivity extends AppCompatActivity {
     TextView tvname, tvqrcodename;
     ImageView qrcodeiv;
     String barcodereceived;
-    ProgressDialog dialog;
+
     SweetAlertDialog sweetAlertDialog;
     private static final int REQUEST_FOR_ACTIVITY = 4568;
 
@@ -128,16 +128,7 @@ public class CheckInOutActivity extends AppCompatActivity {
         progressDialogStart2();
         MongoDBHelper mongoDBHelper = new MongoDBHelper(getParent(), this, getResources().getString(R.string.mongoDBappid), getResources().getString(R.string.mongoDBdatabase),
                 getResources().getString(R.string.mongoDBcollection), prefs, sweetAlertDialog);
-
-        //mongoDBHelper.initilizing();
-
         mongoDBHelper.loginWithCredential();
-
-        /*if (!prefs.contains(AppConstant.MONGODB_INIT)) {
-            mongoDBHelper.loginWithCredential();
-        } else {
-            mongoDBHelper.initilizing();
-        }*/
     }
 
     private void progressDialogStart(String message) {

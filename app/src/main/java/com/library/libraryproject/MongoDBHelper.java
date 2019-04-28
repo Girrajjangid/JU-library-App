@@ -1,12 +1,23 @@
 package com.library.libraryproject;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,14 +38,20 @@ import com.mongodb.stitch.core.services.mongodb.remote.RemoteUpdateResult;
 import com.mongodb.stitch.core.services.mongodb.remote.sync.ChangeEventListener;
 import com.mongodb.stitch.core.services.mongodb.remote.sync.DefaultSyncConflictResolvers;
 import com.mongodb.stitch.core.services.mongodb.remote.sync.ErrorListener;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import org.bson.BsonValue;
 import org.bson.Document;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 
@@ -86,12 +103,6 @@ public class MongoDBHelper {
 
     public void loginWithCredential() {
         client = Stitch.getDefaultAppClient();
-        //client = Stitch.initializeDefaultAppClient(appid);
-        //client = Stitch.initializeDefaultAppClient(appid);
-        //client = Stitch.initializeDefaultAppClient(appid);
-
-        //client = Stitch.initializeAppClient(appid);
-
         client.getAuth().loginWithCredential(new AnonymousCredential())
                 .addOnCompleteListener(new OnCompleteListener<StitchUser>() {
                     @Override
@@ -113,7 +124,6 @@ public class MongoDBHelper {
 
     }
     public void checkIn() {
-
         Calendar c = Calendar.getInstance();
         Date date = c.getTime();
 
@@ -131,7 +141,7 @@ public class MongoDBHelper {
                 .append(AppConstant.STREAM, new Document()
                         .append(AppConstant.Course, prefs.getString(AppConstant.Course, null))
                         .append(AppConstant.Branch, prefs.getString(AppConstant.Branch, null))
-                        .append(AppConstant.BATCH, prefs.getString(AppConstant.BATCH, null))
+                        .append(AppConstant.BATCH, prefs.getLong(AppConstant.BATCH, 0))
                 )
                 .append(AppConstant.RollNo, prefs.getString(AppConstant.RollNo, null))
                 .append(AppConstant.Contact, prefs.getString(AppConstant.Contact, null))
@@ -157,20 +167,75 @@ public class MongoDBHelper {
 
                 }
                 uiUpdate();
-                dialog.setTitleText("Checked-In")
-                        .showContentText(false)
-                        .setConfirmText("OK")
-                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                dialog.dismissWithAnimation();
+                Dialog dialog = new Dialog(context);
+                dialog.setContentView(R.layout.activity_firebase_image_upload);
+                ImageView imageviewloadurl = dialog.findViewById(R.id.imageviewloadurl);
+                ProgressBar progressBar = dialog.findViewById(R.id.homeprogress);
+
+                //TextView textViewincharge = dialog.findViewById(R.id.showthismsg);
+                TextView checkedin = dialog.findViewById(R.id.successfullychedkid);
+                TextView timings = dialog.findViewById(R.id.timings);
+
+                timings.setText(timeDate());
+
+                Picasso.with(context)
+                        .load(prefs.getString(AppConstant.IMAGEURL,null))
+                        .fit()
+                        .placeholder(R.drawable.ic_person_black_24dp)
+                        .centerCrop()
+                        .into(imageviewloadurl, new Callback() {
                             @Override
-                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                sweetAlertDialog.dismissWithAnimation();
+                            public void onSuccess() {
+                                progressBar.setVisibility(View.GONE);
+                                //textViewincharge.setVisibility(View.VISIBLE);
+                                checkedin.setVisibility(View.VISIBLE);
+                                timings.setVisibility(View.VISIBLE);
                             }
-                        })
-                        .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                            @Override
+                            public void onError() {
+                                Toast.makeText(context, "No profile photo", Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.GONE);
+                                //textViewincharge.setVisibility(View.VISIBLE);
+                                checkedin.setVisibility(View.VISIBLE);
+                                timings.setVisibility(View.VISIBLE);
+                            }});
+
+                Button accept = dialog.findViewById(R.id.pressedbutton);
+                accept.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+
+
             }
         });
     }
-    public void uiUpdate() {
+
+    public String timeDate() {
+        Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR);
+        int minutes = c.get(Calendar.MINUTE);
+        int a = c.get(Calendar.AM_PM);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        int month = c.get(Calendar.MONTH);
+        int year = c.get(Calendar.YEAR);
+        String AM_PM;
+        if (a == Calendar.AM) {
+            AM_PM = "AM";
+        } else {
+            AM_PM = "PM";
+        }
+        @SuppressLint("DefaultLocale") String date = String.format("%02d", day) + "/" + String.format("%02d", month+1) + "/" + year;
+        @SuppressLint("DefaultLocale") String time = hour + ":" + String.format("%02d", minutes) + " " + AM_PM;
+        return (date +"  "+ time);
+    }
+
+    private void uiUpdate() {
         Log.e(TAG, " UI-Update called ");
         tvqrcodename = ((Activity) context).findViewById(R.id.scanqrcode);
         qrcodeiv = ((Activity) context).findViewById(R.id.qrcodeiv);

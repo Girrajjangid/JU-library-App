@@ -14,6 +14,7 @@ package com.library.libraryproject;
 
 public  class AppConstant {
 
+    public static final String IMAGEURL = "imageurl";
     static final String MONGODB_SERVICE= "mongodb-atlas";
     static final String MONGODB_INIT =  "mongodb_init";
     static final String OWNER_ID= "owner_id";

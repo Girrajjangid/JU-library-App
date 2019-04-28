@@ -1,174 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_relativelayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clickable="false"
     android:background="@drawable/background_transition"
     android:orientation="horizontal"
-    android:clickable="false"
-    android:id="@+id/parent_relativelayout"
     tools:context=".SplashActivity">
 
     <ImageView
-        android:clickable="false"
+        android:id="@+id/logo"
         android:layout_width="72dp"
         android:layout_height="80dp"
-        android:id="@+id/logo"
-        app:srcCompat="@drawable/jecrclogo"
-        android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
-        tools:ignore="VectorDrawableCompat"
-        android:contentDescription="@string/todo" />
+        android:layout_centerHorizontal="true"
+        android:clickable="false"
+        android:contentDescription="@string/todo"
+        app:srcCompat="@drawable/jecrclogo"
+        tools:ignore="VectorDrawableCompat" />
 
     <LinearLayout
-        android:visibility="gone"
-        android:layout_marginRight="10sp"
-        android:layout_marginLeft="10dp"
-        android:focusableInTouchMode="true"
         android:id="@+id/linearlayoutabove"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:orientation="vertical"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginEnd="10sp"
-        android:layout_marginStart="10dp">
-
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:fontFamily="@font/lekton_bold"
-                android:id="@+id/inputlayout1"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:background="@android:color/transparent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/lekton_bold"
-                    android:focusedByDefault="false"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:maxLength="9"
-                    android:hint="@string/registration_number"
-                    android:textAllCaps="true"
-                    android:textSize="18sp"
-                    android:padding="5dp"
-                    android:textColor="@color/white"
-                    android:inputType="text"
-                    android:id="@+id/logginrollno"
-                    tools:ignore="UnusedAttribute" />
-                <View
-                    android:id="@+id/view1"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_margin="10sp"
-                    android:background="@color/white"
-                    />
-
-            </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:fontFamily="@font/lekton_bold"
-                    android:id="@+id/inputlayout123"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:background="@android:color/transparent"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lekton_bold"
-                        android:textColor="@color/white"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:hint="@string/password"
-                        android:textSize="18sp"
-                        android:padding="8dp"
-                        android:inputType="textPassword"
-                        android:id="@+id/logginpassword"
-                         />
-                    <View
-                        android:id="@+id/view2"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/white"
-                        android:layout_margin="10sp"
-                        />
-                </android.support.design.widget.TextInputLayout>
-            
-    </LinearLayout>
-    
-    <LinearLayout
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:id="@+id/linearlayoutbelow"
-        android:layout_marginTop="10dp"
-        android:layout_alignParentBottom="true"
+        android:layout_marginRight="10sp"
+        android:focusableInTouchMode="true"
         android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:visibility="gone">
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/inputlayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:fontFamily="@font/lekton_bold">
+
+            <EditText
+                android:id="@+id/logginrollno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:focusedByDefault="false"
+                android:fontFamily="@font/lekton_bold"
+                android:hint="@string/registration_number"
+                android:inputType="text"
+                android:maxLength="9"
+                android:padding="5dp"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                tools:ignore="UnusedAttribute" />
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="10sp"
+                android:background="@color/white" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/inputlayout123"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:fontFamily="@font/lekton_bold">
+
+            <EditText
+                android:id="@+id/logginpassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:fontFamily="@font/lekton_bold"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="10sp"
+                android:background="@color/white" />
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearlayoutbelow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <Button
-            android:layout_margin="10dp"
+            android:id="@+id/loginSignin"
             android:layout_width="match_parent"
             android:layout_height="50sp"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:id="@+id/loginSignin"
-            android:fontFamily="@font/caviar_dreams_bold"
-            android:text="@string/sign_in"
-            android:onClick="signIn"
             android:layout_gravity="center"
-            android:textAllCaps="false"
+            android:layout_margin="10dp"
             android:background="@drawable/submit_background"
-            />
+            android:fontFamily="@font/caviar_dreams_bold"
+            android:onClick="signIn"
+            android:text="@string/sign_in"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
 
         <LinearLayout
 
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:weightSum="1"
             android:layout_height="0dp"
-            >
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="1">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@string/new_user"
                 android:layout_margin="10dp"
+                android:layout_weight=".5"
+                android:clickable="false"
                 android:fontFamily="@font/caviar_dreams_bold"
                 android:gravity="center"
-                android:clickable="false"
-                android:textAlignment="textEnd"
+                android:text="@string/new_user"
+                android:textAlignment="center"
                 android:textColor="@color/custom1PrimaryDark"
-                android:layout_weight=".5"
                 android:textSize="20sp"
                 tools:ignore="NestedWeights,RtlCompat" />
 
             <Button
-                android:layout_weight=".5"
                 android:id="@+id/signup_key"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sign_up"
-                android:textSize="21sp"
+                android:layout_margin="10dp"
+                android:layout_weight=".5"
                 android:background="@android:color/transparent"
                 android:clickable="true"
-                android:focusableInTouchMode="true"
-                android:gravity="left"
-                android:layout_margin="10dp"
-                android:textAllCaps="false"
-                android:fontFamily="@font/caviar_dreams_bold"
-                android:textColor="@color/white"
+                android:gravity="center"
                 android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:fontFamily="@font/caviar_dreams_bold"
+                android:textAlignment="center"
+                android:text="@string/sign_up"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="21sp"
                 tools:ignore="RtlHardcoded" />
 
         </LinearLayout>
 
     </LinearLayout>
 </RelativeLayout>
+

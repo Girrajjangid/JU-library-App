@@ -15,11 +15,14 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -41,12 +44,13 @@ public class SignUpActivity extends AppCompatActivity {
     private static final int REQUEST_FOR_OTPACTIVITY = 789 , REQUEST_FOR_ACTIVITY = 456;
     EditText nameET, contactET, passwordET;
     Button rollnoBT;
+    CheckBox checkBoxshowPassword;
     String rollnoOnButton, newbarcode;
     ProgressDialog dialog;
     DatabaseReference ref;
     String name, contact , rollno , password;
-    String branchF , contactF , emailF , nameF , courceF  , passwordF , rollnoF , batchF;
-
+    String branchF , contactF , emailF , nameF , courceF  , passwordF , rollnoF,imageurlF ;
+    Long batchF;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +61,8 @@ public class SignUpActivity extends AppCompatActivity {
         TextInputLayout usernameTextObj = findViewById(R.id.inputlayout12);
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/lekton_bold.ttf");
         usernameTextObj.setTypeface(font);
+        checkBoxshowPassword = findViewById(R.id.checkboxshowpassword);
+        checkBoxshowPassword.setTypeface(font);
 
         ref = FirebaseDatabase.getInstance().getReference();
 
@@ -65,9 +71,22 @@ public class SignUpActivity extends AppCompatActivity {
         contactET = findViewById(R.id.manual_contact);
         passwordET = findViewById(R.id.manual_password);
         rollnoBT = findViewById(R.id.scanidbarcode);
+
+        checkBoxshowPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                passwordET.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                }
+                else{
+                    passwordET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+            }
+        });
     }
 
     public void submitResult(View view) {
+
         name = nameET.getText().toString().trim();
         contact = contactET.getText().toString().trim();
         password = passwordET.getText().toString().trim();
@@ -96,7 +115,6 @@ public class SignUpActivity extends AppCompatActivity {
             name = name.trim().replaceAll("\\s+", " ").toUpperCase();
             checkVerification(name , rollno, contact, password);
         }
-
     }
 
     public void scanBarcode(View view) {
@@ -122,7 +140,6 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
     }
-
 
     private void progressDialog() {
         dialog = ProgressDialog.show(SignUpActivity.this, "Loading...", "Please wait...", true);
@@ -156,7 +173,9 @@ public class SignUpActivity extends AppCompatActivity {
                                                 contactF = (String) as.get("contact");
                                                 courceF = (String) as.get("course");
                                                 emailF = (String) as.get("email");
-                                                //batchF = (String) as.get("batch");
+                                                imageurlF = (String) as.get("imageurl");
+                                                batchF = (Long) as.get("batch");
+
                                                 alertDialogOTP("You receive an OTP on "+ contact + " number. \nPlease click on send.",
                                                         nameF,
                                                         branchF,
@@ -164,7 +183,9 @@ public class SignUpActivity extends AppCompatActivity {
                                                         emailF,
                                                         password,
                                                         contact,
-                                                        rollnoF
+                                                        rollnoF,
+                                                        batchF,
+                                                        imageurlF
                                                         );
                                             } else {
                                                 alertDialog("You already registered.");
@@ -179,6 +200,7 @@ public class SignUpActivity extends AppCompatActivity {
                             }
                         }
                     } catch (Exception ignored) {
+                        Log.e("SignUpActivity", "onDataChange: " + ignored.getMessage() );
                     }
                 } else {
                     dialog.dismiss();
@@ -194,7 +216,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void alertDialogOTP(String message, String nameF, String branchF, String courceF, String emailF, String password,
-                                String contact, String rollnoF) {
+                                String contact, String rollnoF, Long batchF, String imageurlF) {
         Log.e("tg", "alertDialogOTP:  77" );
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(message).setCancelable(false).
@@ -208,9 +230,9 @@ public class SignUpActivity extends AppCompatActivity {
                     intent.putExtra(AppConstant.Email, emailF);
                     intent.putExtra(AppConstant.Password, password);
                     intent.putExtra(AppConstant.RollNo, rollnoF);
-
+                    intent.putExtra(AppConstant.BATCH,batchF);
+                    intent.putExtra(AppConstant.IMAGEURL,imageurlF);
                     startActivity(intent);
-
                 })
                 .setNegativeButton("No", (dialog, which) -> dialog.cancel()).create().show();
     }
