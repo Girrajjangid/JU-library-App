@@ -19,6 +19,7 @@
         android:clickable="false"
         android:contentDescription="@string/todo"
         app:srcCompat="@drawable/jecrclogo"
+        android:visibility="gone"
         tools:ignore="VectorDrawableCompat" />
 
     <LinearLayout
@@ -32,7 +33,7 @@
         android:layout_marginRight="10sp"
         android:focusableInTouchMode="true"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
 
         <android.support.design.widget.TextInputLayout
@@ -109,7 +110,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginTop="10dp"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <Button
             android:id="@+id/loginSignin"

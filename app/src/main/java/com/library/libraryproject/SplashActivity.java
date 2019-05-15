@@ -137,7 +137,6 @@ public class SplashActivity extends AppCompatActivity {
                         sweetAlertDialog.dismissWithAnimation();
                     }
                 }).show();
-
     }
 
     private void progressDialogStart() {

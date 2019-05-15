@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/fprl1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/lockiv"
+            android:layout_width="100sp"
+            android:layout_height="100sp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/lock2" />
+
+        <TextView
+            android:id="@+id/tvforgetpas1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lockiv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="Verify your Number"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvforgetpas2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvforgetpas1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="Enter your mobile number to receive
+        a Verification Code."
+            android:textAlignment="center" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/fprl2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fprl1"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/inputlayoutfp1"
+            android:layout_marginLeft="30sp"
+            android:layout_marginRight="30sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/forget_contact"
+                android:layout_width="match_parent"
+                android:layout_height="50sp"
+                android:background="@drawable/textinput_background"
+                android:fontFamily="@font/lekton_bold"
+                android:hint="Contact"
+                android:inputType="number"
+                android:maxLength="10"
+                android:padding="10dp"
+                android:paddingTop="10sp"
+                android:textSize="20sp" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/submitresult"
+            android:layout_width="200sp"
+            android:layout_height="50sp"
+            android:layout_gravity="center"
+            android:layout_below="@+id/inputlayoutfp1"
+            android:background="@drawable/submit_background"
+            android:elevation="2dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/caviar_dreams_bold"
+            android:onClick="submitResult"
+            android:textAllCaps="false"
+            android:text="Continue"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>
