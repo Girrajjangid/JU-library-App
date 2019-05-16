@@ -8,6 +8,7 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,7 +25,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Map;
 
-import androidx.annotation.RequiresApi;
 
 public class RealTimeDatabaseActivity extends AppCompatActivity {
 
@@ -54,6 +54,7 @@ public class RealTimeDatabaseActivity extends AppCompatActivity {
         }
 
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 switchFlashLight(isChecked);

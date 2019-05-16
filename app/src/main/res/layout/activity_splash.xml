@@ -5,8 +5,8 @@
     android:id="@+id/parent_relativelayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/book"
     android:clickable="false"
-    android:background="@drawable/background_transition"
     android:orientation="horizontal"
     tools:context=".SplashActivity">
 
@@ -18,8 +18,8 @@
         android:layout_centerHorizontal="true"
         android:clickable="false"
         android:contentDescription="@string/todo"
-        app:srcCompat="@drawable/jecrclogo"
-        android:visibility="gone"
+        android:visibility="visible"
+        app:srcCompat="@drawable/jecrclogo3"
         tools:ignore="VectorDrawableCompat" />
 
     <LinearLayout
@@ -27,47 +27,34 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginEnd="10sp"
-        android:layout_marginRight="10sp"
+        android:layout_marginStart="30sp"
+        android:layout_marginEnd="30sp"
         android:focusableInTouchMode="true"
         android:orientation="vertical"
-        android:visibility="visible">
-
+        android:visibility="gone">
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/inputlayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:fontFamily="@font/lekton_bold">
+            android:focusable="false"
+            android:focusableInTouchMode="true">
 
             <EditText
                 android:id="@+id/logginrollno"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:focusedByDefault="false"
-                android:fontFamily="@font/lekton_bold"
+                android:fontFamily="@font/caviar_dreams_bold"
                 android:hint="@string/registration_number"
                 android:inputType="text"
-                android:maxLength="9"
-                android:padding="5dp"
+                android:maxLength="10"
+                android:padding="10dp"
+                android:paddingTop="10sp"
+                android:drawableStart="@drawable/ic_person_black_24dprollno"
                 android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                tools:ignore="UnusedAttribute" />
-
-            <View
-                android:id="@+id/view1"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="10sp"
-                android:background="@color/white" />
+                android:textColor="@color/custom1PrimaryDark"
+                android:textColorHint="@color/custom1Primary"
+                android:textSize="18sp" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -75,30 +62,25 @@
             android:id="@+id/inputlayout123"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:fontFamily="@font/lekton_bold">
+            android:focusable="false"
+            android:focusableInTouchMode="true"
+            app:passwordToggleEnabled="true">
 
             <EditText
                 android:id="@+id/logginpassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:fontFamily="@font/lekton_bold"
+                android:fontFamily="@font/caviar_dreams_bold"
                 android:hint="@string/password"
                 android:inputType="textPassword"
-                android:padding="8dp"
-                android:textColor="@color/white"
+                android:padding="10dp"
+                android:drawableStart="@drawable/ic_lock_black_24dp"
+                android:paddingTop="10sp"
+                android:textAllCaps="true"
+                android:textColor="@color/custom1PrimaryDark"
+                android:textColorHint="@color/custom1Primary"
                 android:textSize="18sp" />
 
-            <View
-                android:id="@+id/view2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="10sp"
-                android:background="@color/white" />
         </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
@@ -107,10 +89,24 @@
         android:id="@+id/linearlayoutbelow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/linearlayoutabove"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/forget_password"
+            android:textColor="@color/custom1PrimaryDark"
+            android:textAlignment="viewEnd"
+            android:textSize="18sp"
+            android:layout_marginBottom="10sp"
+            android:fontFamily="@font/caviar_dreams_bold"
+            android:onClick="forgetPassword"
+            />
 
         <Button
             android:id="@+id/loginSignin"
@@ -127,7 +123,6 @@
             android:textSize="20sp" />
 
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -140,12 +135,12 @@
                 android:layout_margin="10dp"
                 android:layout_weight=".5"
                 android:clickable="false"
-                android:fontFamily="@font/caviar_dreams_bold"
+                android:fontFamily="@font/caviardreams"
                 android:gravity="center"
                 android:text="@string/new_user"
                 android:textAlignment="center"
                 android:textColor="@color/custom1PrimaryDark"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 tools:ignore="NestedWeights,RtlCompat" />
 
             <Button
@@ -154,21 +149,19 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight=".5"
-                android:background="@android:color/transparent"
+                android:background="@drawable/border_red_dark2"
                 android:clickable="true"
-                android:gravity="center"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:fontFamily="@font/caviar_dreams_bold"
-                android:textAlignment="center"
+                android:gravity="center"
                 android:text="@string/sign_up"
+                android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="21sp"
-                tools:ignore="RtlHardcoded" />
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="15sp"
+                tools:ignore="RtlHardcoded"
+                android:focusable="true" />
 
         </LinearLayout>
 
-    </LinearLayout>
-</RelativeLayout>
+    </LinearLayout></RelativeLayout>
 

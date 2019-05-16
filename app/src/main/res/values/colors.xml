@@ -8,8 +8,9 @@
     <color name="custom1PrimaryDark">#232F34</color>
     <color name="custom1PrimaryDarkcheckin">#232F34</color>
     <color name="custom1PrimaryDark2">#50899E</color>
-    <color name="custom1TextInputBackgroun">#C7E8F8</color>
-    <color name="custom1Accent">#F9AA33</color>
+    <color name="forgetpass1">#B9E6FA</color>
+    <color name="forgetpass2">#264653</color>
+    <color name="custom1TextInputBackgroun">#DDF4FF</color>
     <color name="red">#FC0D0D</color>
 
     <color name="custom2Primary">#37966F</color>
@@ -33,5 +34,13 @@
     <color name="colorGreen1">#3eb959</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorGrey">#9E9E9E</color>
+    <color name="backgroundforgetpass">#F7EBE7</color>
+
+    <color name="custom1Accent">#F9AA33</color>
+
+    <color name="custom12Accent">#F8BC5D</color>
+    <color name="custom123Accent">#B9E6FA</color>
+    <color name="custom1BackGround">#E0E0C0</color>
+
 
 </resources>

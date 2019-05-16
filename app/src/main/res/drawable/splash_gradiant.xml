@@ -2,11 +2,12 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 <gradient
 
-    android:angle="270"
-    android:centerX="0.7"
-android:startColor="@color/splash_background1"
-    android:endColor="@color/splash_background3"
-android:centerColor="@color/splash_background2"
+    android:angle="180"
+    android:centerX="0.9"
+    android:startColor="@color/custom12Accent"
+    android:endColor="@color/custom1BackGround"
+    android:centerColor="@color/custom123Accent"
+    android:gradientRadius="45sp"
     />
 
 </shape>

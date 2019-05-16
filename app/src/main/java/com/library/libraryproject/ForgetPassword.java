@@ -49,7 +49,7 @@ public class ForgetPassword extends AppCompatActivity {
 
     private void checkFromFirebase(String cont) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        ref.child("students").orderByChild(AppConstant.Contact).addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.child("students").orderByChild(AppConstant.Contact).equalTo(cont).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -59,14 +59,26 @@ public class ForgetPassword extends AppCompatActivity {
                     } catch (Exception e) {
                         Log.e(TAG, "onDataChange: " + e.getMessage());
                     }
+                } else {
+                    sweetAlertDialog.getProgressHelper().setRimColor(R.color.custom1PrimaryDarkcheckin);
+                    sweetAlertDialog
+                            .setContentText("Incorrect Mobile number.")
+                            .setConfirmText("OK")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismissWithAnimation();
+                                }
+                            })
+                            .changeAlertType(SweetAlertDialog.ERROR_TYPE);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 sweetAlertDialog.getProgressHelper().setRimColor(R.color.custom1PrimaryDarkcheckin);
-                sweetAlertDialog.setTitleText("You are not Registered.")
-                        .showContentText(false)
+                sweetAlertDialog.setTitleText("Opps!!")
+                        .setContentText("Try again later.")
                         .setConfirmText("OK")
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
@@ -74,7 +86,7 @@ public class ForgetPassword extends AppCompatActivity {
                                 sweetAlertDialog.dismissWithAnimation();
                             }
                         })
-                        .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                        .changeAlertType(SweetAlertDialog.WARNING_TYPE);
             }
         });
     }

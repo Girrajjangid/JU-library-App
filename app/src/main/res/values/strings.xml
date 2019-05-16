@@ -27,7 +27,7 @@
     <string name="checkin">Check In</string>
     <string name="_continue">Continue</string>
     <string name="checkout">Check Out</string>
-    <string name="new_user">New User?</string>
+    <string name="new_user">Are we connected?</string>
     <string name="password">Password</string>
     <string name="barcodesaved">"q1df4fvc5ds8as1aavr"</string>
 
@@ -45,5 +45,15 @@
     <string name="positive_popup_title_default">Like a boos</string>
     <string name="negative_popup_text_default">Failed</string>
     <string name="negative_popup_title_default">AWW.. SNAP</string>
+    <string name="update">Update</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+    <string name="new_password">New Password</string>
+    <string name="reset_password">Reset Password...</string>
+    <string name="continue234">Continue</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="forget_password">Forget Password ?</string>
+    <string name="name">Name</string>
+    <string name="contact">Contact</string>
+    <string name="scan_qr_code">Scan QR Code</string>
     <!--gv1sasii4rayrk5iaarr8sauaa1hnsjmtshi-->
 </resources>

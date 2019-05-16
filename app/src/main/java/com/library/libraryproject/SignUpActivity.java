@@ -41,48 +41,34 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private static final int REQUEST_FOR_OTPACTIVITY = 789 , REQUEST_FOR_ACTIVITY = 456;
-    EditText nameET, contactET, passwordET;
-    Button rollnoBT;
-    CheckBox checkBoxshowPassword;
+    private static final int REQUEST_FOR_OTPACTIVITY = 789, REQUEST_FOR_ACTIVITY = 456;
+    EditText nameET, contactET, passwordET,rollnoET;
+
     String rollnoOnButton, newbarcode;
     ProgressDialog dialog;
     DatabaseReference ref;
-    String name, contact , rollno , password;
-    String branchF , contactF , emailF , nameF , courceF  , passwordF , rollnoF,imageurlF ;
+    String name, contact, rollno, password;
+    String branchF, contactF, emailF, nameF, courceF, passwordF, rollnoF, imageurlF;
     Long batchF;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        PermissionHelper.askPermission(this,SignUpActivity.this);
+        PermissionHelper.askPermission(this, SignUpActivity.this);
 
         TextInputLayout usernameTextObj = findViewById(R.id.inputlayout12);
-        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/lekton_bold.ttf");
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/caviar_dreams_bold.ttf");
         usernameTextObj.setTypeface(font);
-        checkBoxshowPassword = findViewById(R.id.checkboxshowpassword);
-        checkBoxshowPassword.setTypeface(font);
 
         ref = FirebaseDatabase.getInstance().getReference();
 
-        rollnoOnButton = getResources().getString(R.string.roll_no_scan_id);
+        //rollnoOnButton = getResources().getString(R.string.registration_number);
         nameET = findViewById(R.id.manual_name);
         contactET = findViewById(R.id.manual_contact);
         passwordET = findViewById(R.id.manual_password);
-        rollnoBT = findViewById(R.id.scanidbarcode);
-
-        checkBoxshowPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                passwordET.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                }
-                else{
-                    passwordET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                }
-            }
-        });
+        rollnoET = findViewById(R.id.manual_registrationnumber);
     }
 
     public void submitResult(View view) {
@@ -90,46 +76,45 @@ public class SignUpActivity extends AppCompatActivity {
         name = nameET.getText().toString().trim();
         contact = contactET.getText().toString().trim();
         password = passwordET.getText().toString().trim();
-        rollno = newbarcode;
-
-        if(!Utility.isConnected(SignUpActivity.this)){
+        rollno = rollnoET.getText().toString().trim();
+        rollno = rollno.toUpperCase();
+        if (!Utility.isConnected(SignUpActivity.this)) {
             View parentLayout = findViewById(android.R.id.content);
             Snackbar.make(parentLayout, "No Internet Connection", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-        } else
-        if (name.isEmpty()) {
+        } else if (name.isEmpty()) {
             nameET.setError("Enter Name");
             nameET.requestFocus();
-        } else if (contact.isEmpty()|| contact.length() != 10) {
+        } else if (contact.isEmpty() || contact.length() != 10) {
             contactET.setError("Invalid Contact");
             contactET.requestFocus();
         } else if (password.isEmpty() || password.length() < 5) {
             passwordET.setError("Enter at least 5 characters");
             passwordET.requestFocus();
-        }
-        else if (rollno == null) {
-            alertDialog("Scan your Id card.");
-        }
-        else {
+        } else if (rollno.isEmpty()) {
+            rollnoET.setError("Enter Registration Number.");
+            rollnoET.requestFocus();
+        } else {
             progressDialog();
             contact = "+91" + contact;
             name = name.trim().replaceAll("\\s+", " ").toUpperCase();
-            checkVerification(name , rollno, contact, password);
+            checkVerification(name, rollno, contact, password);
         }
     }
 
-    public void scanBarcode(View view) {
+    /*public void scanBarcode(View view) {
         if (PermissionHelper.allPermissionsGranted(this)) {
             Intent intent = new Intent(SignUpActivity.this, BarcodeActivity.class);
             startActivityForResult(intent, REQUEST_FOR_ACTIVITY);
         } else {
             PermissionHelper.getRuntimePermissions(this, SignUpActivity.this);
         }
-    }
+    }*/
 
-    @Override
+    /*@Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (REQUEST_FOR_ACTIVITY == requestCode) {
+
+        *//*if (REQUEST_FOR_ACTIVITY == requestCode) {
             if (resultCode == RESULT_OK) {
                 assert data != null;
                 newbarcode = (Objects.requireNonNull(data.getData())).toString();
@@ -137,15 +122,15 @@ public class SignUpActivity extends AppCompatActivity {
                     rollnoBT.setText(newbarcode);
                 }
             }
-        }
+        }*//*
 
-    }
+    }*/
 
     private void progressDialog() {
         dialog = ProgressDialog.show(SignUpActivity.this, "Loading...", "Please wait...", true);
     }
 
-    private void checkVerification(String name , String rollno, String contact, String password) {
+    private void checkVerification(String name, String rollno, String contact, String password) {
 
         ref.child("students").orderByChild("contact").equalTo(contact).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -155,20 +140,20 @@ public class SignUpActivity extends AppCompatActivity {
                     try {
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
                             rollnoF = ds.getKey();
-                            Log.e("TAG", "onDataChange: execute 1" );
+                            Log.e("TAG", "onDataChange: execute 1");
                             if (rollnoF != null) {
-                                Log.e("TAG", "onDataChange: execute 2" );
+                                Log.e("TAG", "onDataChange: execute 2");
                                 if (rollnoF.equals(rollno)) {
-                                    Log.e("TAG", "onDataChange: execute 3" );
+                                    Log.e("TAG", "onDataChange: execute 3");
                                     HashMap as = (HashMap) ds.getValue();
                                     if (as != null) {
-                                        Log.e("TAG", "onDataChange: execute 4" );
+                                        Log.e("TAG", "onDataChange: execute 4");
                                         passwordF = (String) as.get("password");
                                         nameF = (String) as.get("name");
                                         if (name.equalsIgnoreCase(nameF)) {
-                                            Log.e("TAG", "onDataChange: execute 5" );
+                                            Log.e("TAG", "onDataChange: execute 5");
                                             if (passwordF.isEmpty()) {
-                                                Log.e("TAG", "onDataChange: execute 6" );
+                                                Log.e("TAG", "onDataChange: execute 6");
                                                 branchF = (String) as.get("branch");
                                                 contactF = (String) as.get("contact");
                                                 courceF = (String) as.get("course");
@@ -176,7 +161,7 @@ public class SignUpActivity extends AppCompatActivity {
                                                 imageurlF = (String) as.get("imageurl");
                                                 batchF = (Long) as.get("batch");
 
-                                                alertDialogOTP("You receive an OTP on "+ contact + " number. \nPlease click on send.",
+                                                alertDialogOTP("You receive an OTP on " + contact + " number. \nPlease click on send.",
                                                         nameF,
                                                         branchF,
                                                         courceF,
@@ -186,7 +171,7 @@ public class SignUpActivity extends AppCompatActivity {
                                                         rollnoF,
                                                         batchF,
                                                         imageurlF
-                                                        );
+                                                );
                                             } else {
                                                 alertDialog("You already registered.");
                                             }
@@ -200,7 +185,7 @@ public class SignUpActivity extends AppCompatActivity {
                             }
                         }
                     } catch (Exception ignored) {
-                        Log.e("SignUpActivity", "onDataChange: " + ignored.getMessage() );
+                        Log.e("SignUpActivity", "onDataChange: " + ignored.getMessage());
                     }
                 } else {
                     dialog.dismiss();
@@ -217,12 +202,12 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void alertDialogOTP(String message, String nameF, String branchF, String courceF, String emailF, String password,
                                 String contact, String rollnoF, Long batchF, String imageurlF) {
-        Log.e("tg", "alertDialogOTP:  77" );
+        Log.e("tg", "alertDialogOTP:  77");
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(message).setCancelable(false).
                 setPositiveButton("Send", (dialogInterface, i) -> {
 
-                    Intent intent = new Intent(SignUpActivity.this , OTPActivity.class);
+                    Intent intent = new Intent(SignUpActivity.this, OTPActivity.class);
                     intent.putExtra(AppConstant.Name, nameF);
                     intent.putExtra(AppConstant.Branch, branchF);
                     intent.putExtra(AppConstant.Contact, contact);
@@ -230,15 +215,15 @@ public class SignUpActivity extends AppCompatActivity {
                     intent.putExtra(AppConstant.Email, emailF);
                     intent.putExtra(AppConstant.Password, password);
                     intent.putExtra(AppConstant.RollNo, rollnoF);
-                    intent.putExtra(AppConstant.BATCH,batchF);
-                    intent.putExtra(AppConstant.IMAGEURL,imageurlF);
+                    intent.putExtra(AppConstant.BATCH, batchF);
+                    intent.putExtra(AppConstant.IMAGEURL, imageurlF);
                     startActivity(intent);
                 })
                 .setNegativeButton("No", (dialog, which) -> dialog.cancel()).create().show();
     }
 
     public void alertDialog(String message) {
-        SweetAlertDialog dialog = new SweetAlertDialog(SignUpActivity.this, SweetAlertDialog.ERROR_TYPE);
+        SweetAlertDialog dialog = new SweetAlertDialog(SignUpActivity.this, SweetAlertDialog.WARNING_TYPE);
         dialog.setTitleText("Oops...");
         dialog.setContentText(message);
         dialog.setConfirmText("OK")

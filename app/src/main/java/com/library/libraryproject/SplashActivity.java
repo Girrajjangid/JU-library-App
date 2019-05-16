@@ -53,18 +53,19 @@ public class SplashActivity extends AppCompatActivity {
     Button signup;
     public static final String preference = "UserData";
     private static final String TAG = "SplashActivity";
-    private String nameF , branchF , contactF , courceF ,emailF;
-    SweetAlertDialog sweetAlertDialog ;
+    private String nameF, branchF, contactF, courceF, emailF;
+    SweetAlertDialog sweetAlertDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
         rollnoET = findViewById(R.id.logginrollno);
         passwordET = findViewById(R.id.logginpassword);
         signup = findViewById(R.id.signup_key);
+
         TextInputLayout usernameTextObj = findViewById(R.id.inputlayout123);
-        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/lekton_bold.ttf");
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/caviar_dreams_bold.ttf");
         usernameTextObj.setTypeface(font);
 
 
@@ -72,7 +73,7 @@ public class SplashActivity extends AppCompatActivity {
         linearlayoutabove = findViewById(R.id.linearlayoutabove);
         linearlayoutbelow = findViewById(R.id.linearlayoutbelow);
 
-        transition = (TransitionDrawable) findViewById(R.id.parent_relativelayout).getBackground();
+        //transition = (TransitionDrawable) findViewById(R.id.parent_relativelayout).getBackground();
         anim1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animation1);
         anim2 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animation2);
         anim3 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animation3);
@@ -93,7 +94,7 @@ public class SplashActivity extends AppCompatActivity {
             imageViewlogo.animate().translationY(50).setDuration(800);
             imageViewlogo.startAnimation(anim1);
 
-            transition.startTransition(1500);
+            //transition.startTransition(1500);
             linearlayoutabove.setVisibility(View.VISIBLE);
             linearlayoutbelow.setVisibility(View.VISIBLE);
             linearlayoutabove.startAnimation(anim2);
@@ -103,30 +104,6 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void alertDialog(String message) {
-        /*final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(message).setCancelable(true).
-                setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                }).create().show();*/
-        /*  alertdialog.builder abuilder = new alertdialog.builder(this);
-        abuilder.setmessage(mess);
-        abuilder.setpositivebutton("ok", new dialoginterface.onclicklistener() {
-            @override
-            public void onclick(dialoginterface dialoginterface, int i) {
-                dialoginterface.cancel();
-            }
-        }).create().show();
-       */
-
-       /*SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
-        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-        pDialog.setTitleText("Loading");
-        pDialog.setCancelable(false);
-        pDialog.show();
-       */
         SweetAlertDialog dialog = new SweetAlertDialog(SplashActivity.this, SweetAlertDialog.ERROR_TYPE);
         dialog.setTitleText("Oops...");
         dialog.setContentText(message);
@@ -141,8 +118,8 @@ public class SplashActivity extends AppCompatActivity {
 
     private void progressDialogStart() {
 
-        sweetAlertDialog = Utility.sweetAlertDialogStart(this,"Loading...","Please wait...", SweetAlertDialog.PROGRESS_TYPE);
-        //dialog = ProgressDialog.show(SplashActivity.this, "Loading...", "Please wait...", true);
+        sweetAlertDialog = Utility.sweetAlertDialogStart(this, "Loading...", "Please wait...", SweetAlertDialog.PROGRESS_TYPE);
+
     }
 
     public void signUp(View view) {
@@ -154,7 +131,7 @@ public class SplashActivity extends AppCompatActivity {
         String password = passwordET.getText().toString().trim();
         String rollno = rollnoET.getText().toString().trim();
 
-        if(!Utility.isConnected(SplashActivity.this)){
+        if (!Utility.isConnected(SplashActivity.this)) {
             View parentLayout = findViewById(android.R.id.content);
             Snackbar.make(parentLayout, "No Internet Connection", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
@@ -167,13 +144,13 @@ public class SplashActivity extends AppCompatActivity {
         } else {
             rollno = rollno.toUpperCase();
             progressDialogStart();
-            checkFromFirebase(rollno , password);
+            checkFromFirebase(rollno, password);
 
         }
     }
 
     private void checkFromFirebase(String rollno, String password) {
-        DatabaseReference ref  = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         ref.child("students").orderByKey().equalTo(rollno).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -198,7 +175,7 @@ public class SplashActivity extends AppCompatActivity {
                                                 (String) as.get("branch"),
                                                 (Long) as.get("batch"),
                                                 (String) as.get("imageurl"));
-                                        Log.e(TAG, "onDataChange: Sucessfully added" );
+                                        Log.e(TAG, "onDataChange: Sucessfully added");
                                     } else {
                                         alertDialog("Wrong password.");
                                     }
@@ -219,8 +196,9 @@ public class SplashActivity extends AppCompatActivity {
         });
 
     }
-    private void sucessfullyVerified( String strName , String strEmail , String strRollno , String strContact , String strPassword , String strCourse ,
-                                      String strBranch, Long intbatch , String imageurl) {
+
+    private void sucessfullyVerified(String strName, String strEmail, String strRollno, String strContact, String strPassword, String strCourse,
+                                     String strBranch, Long intbatch, String imageurl) {
         prefs = getSharedPreferences(preference, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("name", strName);
@@ -233,12 +211,13 @@ public class SplashActivity extends AppCompatActivity {
         editor.putString("imageurl", imageurl);
         editor.putLong("batch", intbatch);
         editor.apply();
-        Intent intent = new Intent(SplashActivity.this,CheckInOutActivity.class);
+        Intent intent = new Intent(SplashActivity.this, CheckInOutActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
 
     }
+
     protected void onResume() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             prefs = getSharedPreferences(preference, Context.MODE_PRIVATE);
@@ -249,11 +228,14 @@ public class SplashActivity extends AppCompatActivity {
                     finish();
                 }
             }
-        }else{
+        } else {
             Toast.makeText(this, "This App doesn't work properly in your phone.", Toast.LENGTH_SHORT).show();
             finish();
         }
         super.onResume();
     }
 
+    public void forgetPassword(View view) {
+        startActivity(new Intent(SplashActivity.this, ForgetPassword.class));
+    }
 }

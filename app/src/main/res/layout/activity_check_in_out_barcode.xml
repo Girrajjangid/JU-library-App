@@ -23,5 +23,16 @@
         android:layout_centerInParent="true"
         android:background="@drawable/frame"
         android:contentDescription="@string/todo" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/scan_qr_code"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_marginBottom="10sp"
+        android:textSize="22sp"
+        android:fontFamily="@font/caviar_dreams_bold"
+        />
 
 </RelativeLayout>
