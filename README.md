@@ -38,3 +38,8 @@ To keep track of who has come in the library, at what time, University has to ma
 # App Download Link
 https://github.com/Girrajjangid/LibraryProject/raw/master/app/build/outputs/apk/debug/newapk.apk
 
+# App Download QR-Code
+
+## Scan this QR-Code to download the Application
+
+![alt text](https://github.com/Girrajjangid/LibraryProject/blob/master/adqr4.png)
